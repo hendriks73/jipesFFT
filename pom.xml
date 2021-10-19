@@ -311,7 +311,6 @@
             </properties>
         </profile>
 
-    <profiles>
         <!-- Windows-specific Config 64 bit-->
         <profile>
             <id>platform-win64</id>
