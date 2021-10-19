@@ -13,8 +13,83 @@ on:
 
 
 jobs:
-  build:
 
+  windows-build:
+
+    runs-on: windows-2019
+    strategy:
+      matrix:
+        arch: [x64, x86]
+        java: [ 9 ]
+        include:
+          - arch: x64
+            sys: mingw64
+            env: x86_64
+          - arch: x86
+            sys: mingw32
+            env: i686
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{ matrix.sys }}
+          install: mingw-w64-${{ matrix.env }}-toolchain
+          path-type: inherit
+
+      - uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+
+# use cache to transport artifacts to the next job
+      - uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            maven-
+
+      - name: Build/test code with Maven
+        run: |
+          which mvn
+          mvn -P platform-win-${{ matrix.arch }} -B install --file pom.xml
+
+
+  linux-build:
+
+    needs: windows-build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-20.04 ]
+        java: [ 9 ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+
+# use cache to transport artifacts to the next job
+      - uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            maven-
+
+      - name: Build/test code with Maven
+        run: mvn -B install --file pom.xml
+
+
+  macos-build:
+
+    needs: linux-build
     runs-on: macos-10.15
 
     steps:
@@ -33,6 +108,14 @@ jobs:
           server-id: ossrh
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
+
+# use cache to transport (in this case read) artifacts from prior
+      - uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            maven-
 
       - id: publish-to-central
         name: Publish to Central Repository
