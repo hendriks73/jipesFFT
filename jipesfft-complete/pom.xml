@@ -11,6 +11,14 @@
     <packaging>jar</packaging>
     <name>jipesFFT Complete (Java+native)</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.tagtraum</groupId>
+            <artifactId>jipesfft-java</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <resources>
             <resource>
@@ -86,6 +94,259 @@
                                 </goals>
                                 <configuration>
                                     <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.tagtraum</groupId>
+                                            <artifactId>jipesfft-x86_64-macos</artifactId>
+                                            <version>${project.version}</version>
+                                            <type>dylib</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>com.tagtraum</groupId>
+                                            <artifactId>jipesfft-aarch64-macos</artifactId>
+                                            <version>${project.version}</version>
+                                            <type>dylib</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Unix-specific Config -->
+        <profile>
+            <id>platform-linux</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                    <name>!mac os x</name>
+                </os>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.tagtraum</groupId>
+                    <artifactId>jipesfft-x86_64-unix</artifactId>
+                    <version>${project.version}</version>
+                    <type>so</type>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.tagtraum</groupId>
+                                            <artifactId>jipesfft-x86_64-unix</artifactId>
+                                            <version>${project.version}</version>
+                                            <type>so</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Windows-specific Config 32 bit-->
+        <profile>
+            <!-- must be explicitly activated! -->
+            <id>platform-win-x86</id>
+            <dependencies>
+                <dependency>
+                    <groupId>com.tagtraum</groupId>
+                    <artifactId>jipesfft-i386-win</artifactId>
+                    <version>${project.version}</version>
+                    <type>dll</type>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.tagtraum</groupId>
+                                            <artifactId>jipesfft-i386-win</artifactId>
+                                            <version>${project.version}</version>
+                                            <type>dll</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Windows-specific Config 64 bit-->
+        <profile>
+            <!-- must be explicitly activated! -->
+            <id>platform-win-x64</id>
+            <dependencies>
+                <dependency>
+                    <groupId>com.tagtraum</groupId>
+                    <artifactId>jipesfft-x86_64-win</artifactId>
+                    <version>${project.version}</version>
+                    <type>dll</type>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.tagtraum</groupId>
+                                            <artifactId>jipesfft-x86_64-win</artifactId>
+                                            <version>${project.version}</version>
+                                            <type>dll</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- release profile -->
+        <profile>
+            <!-- must be explicitly activated! -->
+            <id>release</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <dependencies>
+                <!-- Windows -->
+                <dependency>
+                    <groupId>com.tagtraum</groupId>
+                    <artifactId>jipesfft-x86_64-win</artifactId>
+                    <version>${project.version}</version>
+                    <type>dll</type>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.tagtraum</groupId>
+                    <artifactId>jipesfft-i386-win</artifactId>
+                    <version>${project.version}</version>
+                    <type>dll</type>
+                    <scope>provided</scope>
+                </dependency>
+                <!-- Linux -->
+                <dependency>
+                    <groupId>com.tagtraum</groupId>
+                    <artifactId>jipesfft-x86_64-unix</artifactId>
+                    <version>${project.version}</version>
+                    <type>so</type>
+                    <scope>provided</scope>
+                </dependency>
+                <!-- Mac -->
+                <dependency>
+                    <groupId>com.tagtraum</groupId>
+                    <artifactId>jipesfft-x86_64-macos</artifactId>
+                    <version>${project.version}</version>
+                    <type>dylib</type>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.tagtraum</groupId>
+                    <artifactId>jipesfft-aarch64-macos</artifactId>
+                    <version>${project.version}</version>
+                    <type>dylib</type>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <!-- Windows -->
+                                        <artifactItem>
+                                            <groupId>com.tagtraum</groupId>
+                                            <artifactId>jipesfft-x86_64-win</artifactId>
+                                            <version>${project.version}</version>
+                                            <type>dll</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>com.tagtraum</groupId>
+                                            <artifactId>jipesfft-i386-win</artifactId>
+                                            <version>${project.version}</version>
+                                            <type>dll</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                        </artifactItem>
+                                        <!-- Linux -->
+                                        <artifactItem>
+                                            <groupId>com.tagtraum</groupId>
+                                            <artifactId>jipesfft-x86_64-unix</artifactId>
+                                            <version>${project.version}</version>
+                                            <type>so</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                        </artifactItem>
+                                        <!-- Mac -->
                                         <artifactItem>
                                             <groupId>com.tagtraum</groupId>
                                             <artifactId>jipesfft-x86_64-macos</artifactId>
