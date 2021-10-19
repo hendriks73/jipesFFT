@@ -85,7 +85,7 @@ jobs:
 
   linux-build:
 
-    needs: windows-build
+    needs: windows-x86-build
     runs-on: ubuntu-20.04
 
     steps:
