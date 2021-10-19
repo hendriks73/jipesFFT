@@ -50,10 +50,15 @@ jobs:
     runs-on: windows-2019
     strategy:
       matrix:
+        arch: [x64, x86]
         java: [ 9 ]
         include:
-          - { sys: mingw64, env: x86_64, arch: x64 }
-          - { sys: mingw32, env: i686, arch: x86 }
+          - arch: x64
+            sys: mingw64
+            env: x86_64
+          - arch: x86
+            sys: mingw32
+            env: i686
     defaults:
       run:
         shell: msys2 {0}
