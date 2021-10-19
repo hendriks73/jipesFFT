@@ -19,7 +19,7 @@
 JNIEXPORT jlong JNICALL Java_com_tagtraum_jipesfft_NativeFFT_init
     (JNIEnv * env, jclass clazz, jint numberOfSamples) {
     // do nothing
-    return 1 L;
+    return 1L;
 }
 
 /*

@@ -10,6 +10,7 @@ const int maxFastBits = 16;
 static bool isPowerOfTwo(int x);
 static int numberOfBitsNeeded(int powerOfTwo);
 static int reverseBits(int index, int numBits);
+static int fastReverseBits(int index, int numBits);
 
 bool isPowerOfTwo(int x) {
     if (x < 2) return false;
