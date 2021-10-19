@@ -53,6 +53,9 @@
 					<linkerStartOptions>
 						<linkerStartOption>${linker.startoptions}</linkerStartOption>
 					</linkerStartOptions>
+					<linkerEndOptions>
+						<linkerEndOption>${linker.endoptions}</linkerEndOption>
+					</linkerEndOptions>
 				</configuration>
 
 			</plugin>

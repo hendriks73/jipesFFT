@@ -12,7 +12,8 @@
     <description>x86_64 library for jipesFFT.</description>
 
     <properties>
-        <arch>x86_64</arch>
+        <target>WIN32</target>
+        <gcc.code>-m64</gcc.code>
         <maven.javadoc.skip>true</maven.javadoc.skip>
     </properties>
 
