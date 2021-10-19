@@ -317,8 +317,8 @@
                 <ccompiler>gcc</ccompiler>
                 <headers.jni>${env.JAVA_HOME}/include/</headers.jni>
                 <headers.os>win32</headers.os>
-                <compiler.startoptions>${cflags} ${gcc.code} -DTARGET_OS_${target} -Wall -x c -Wno-multichar -D_JNI_IMPLEMENTATION_</compiler.startoptions>
-                <linker.startoptions>${gcc.code} -Wl,--kill-at -Wl,--allow-multiple-definition -static-libgcc -shared -Os -s</linker.startoptions>
+                <compiler.startoptions>${cflags} ${gcc.code} -DTARGET_OS_${target} -Wall -x c -Wno-multichar -D_JNI_IMPLEMENTATION_ -O3</compiler.startoptions>
+                <linker.startoptions>${gcc.code} -Wl,--kill-at -Wl,--allow-multiple-definition -static-libgcc -shared -s</linker.startoptions>
                 <linker.endoptions>-lws2_32</linker.endoptions>
             </properties>
         </profile>
@@ -337,8 +337,8 @@
                 <ccompiler>gcc</ccompiler>
                 <headers.jni>${env.JAVA_HOME}/include/</headers.jni>
                 <headers.os>win32</headers.os>
-                <compiler.startoptions>${cflags} ${gcc.code} -DTARGET_OS_${target} -Wall -x c -Wno-multichar -D_JNI_IMPLEMENTATION_</compiler.startoptions>
-                <linker.startoptions>${gcc.code} -Wl,--kill-at -Wl,--allow-multiple-definition -static-libgcc -shared -Os -s</linker.startoptions>
+                <compiler.startoptions>${cflags} ${gcc.code} -DTARGET_OS_${target} -Wall -x c -Wno-multichar -D_JNI_IMPLEMENTATION_ -O3</compiler.startoptions>
+                <linker.startoptions>${gcc.code} -Wl,--kill-at -Wl,--allow-multiple-definition -static-libgcc -shared -s</linker.startoptions>
                 <linker.endoptions>-lws2_32</linker.endoptions>
             </properties>
         </profile>
@@ -366,7 +366,7 @@
                 <compiler.startoptions>${cflags} -DTARGET_OS_MAC
                     -arch ${arch} -fmessage-length=0
                     -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks
-                    -Os -Wunused-variable -isysroot ${isysroot}
+                    -O3 -Wunused-variable -isysroot ${isysroot}
                     -mmacosx-version-min=${mmacosx-version-min} -Wmost
                     -Wno-four-char-constants -Wno-unknown-pragmas
                     -I/System/Library/Frameworks/JavaVM.framework/Headers
@@ -400,8 +400,8 @@
                 <ccompiler>gcc</ccompiler>
                 <headers.jni>${env.JAVA_HOME}/include/</headers.jni>
                 <headers.os>linux</headers.os>
-                <compiler.startoptions>${cflags} ${gcc.code} -fPIC -Wall -x c -Wno-multichar -D_JNI_IMPLEMENTATION_</compiler.startoptions>
-                <linker.startoptions>${gcc.code} -Wl,--allow-multiple-definition -shared -Os -s</linker.startoptions>
+                <compiler.startoptions>${cflags} ${gcc.code} -fPIC -Wall -x c -Wno-multichar -D_JNI_IMPLEMENTATION_ -O3</compiler.startoptions>
+                <linker.startoptions>${gcc.code} -Wl,--allow-multiple-definition -shared -s</linker.startoptions>
                 <!-- <linker.endoptions>-lws2_32</linker.endoptions> -->
                 <linker.endoptions/>
             </properties>
