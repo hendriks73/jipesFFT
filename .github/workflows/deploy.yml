@@ -38,19 +38,24 @@ jobs:
       - uses: actions/cache@v1
         with:
           path: ~/.m2/repository
-          key: maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            maven-
+            ${{ runner.os }}-maven-
 
       - name: Build/test code with Maven
         run: |
           which mvn
           mvn -P platform-win-x64 -B install --file pom.xml
 
+      - run: mkdir nativelibs && cp jipesfft-x86_64-win/target/*.dll nativelibs
+      - uses: actions/upload-artifact@v2
+        with:
+          name: nativelibs-x64-win
+          path: nativelibs
+          retention-days: 1
 
   windows-x86-build:
 
-    needs: windows-x64-build
     runs-on: windows-2019
     defaults:
       run:
@@ -73,19 +78,25 @@ jobs:
       - uses: actions/cache@v1
         with:
           path: ~/.m2/repository
-          key: maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            maven-
+            ${{ runner.os }}-maven-
 
       - name: Build/test code with Maven
         run: |
           which mvn
           mvn -P platform-win-x86 -B install --file pom.xml
 
+      - run: mkdir nativelibs && cp jipesfft-i386-win/target/*.dll nativelibs
+      - uses: actions/upload-artifact@v2
+        with:
+          name: nativelibs-x86-win
+          path: nativelibs
+          retention-days: 1
+
 
   linux-build:
 
-    needs: windows-x86-build
     runs-on: ubuntu-20.04
 
     steps:
@@ -99,17 +110,24 @@ jobs:
       - uses: actions/cache@v1
         with:
           path: ~/.m2/repository
-          key: maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            maven-
+            ${{ runner.os }}-maven-
 
       - name: Build/test code with Maven
         run: mvn -B install --file pom.xml
 
+      - run: mkdir nativelibs && cp jipesfft-x86_64-unix/target/*.so nativelibs
+      - uses: actions/upload-artifact@v2
+        with:
+          name: nativelibs-x86-unix
+          path: nativelibs
+          retention-days: 1
+
 
   macos-build:
 
-    needs: linux-build
+    needs: [linux-build, windows-x86-build, windows-x64-build ]
     runs-on: macos-10.15
 
     steps:
@@ -133,9 +151,30 @@ jobs:
       - uses: actions/cache@v1
         with:
           path: ~/.m2/repository
-          key: maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            maven-
+            ${{ runner.os }}-maven-
+
+      - name: create target/classes for jipesfft-complete
+        run: mkdir jipesfft-complete/target/classes/
+
+      - name: Get Linux native lib
+        uses: actions/download-artifact@v2
+        with:
+          name: nativelibs-x86-unix
+          path: jipesfft-complete/target/classes/
+
+      - name: Get Windows x86 native lib
+        uses: actions/download-artifact@v2
+        with:
+          name: nativelibs-x86-win
+          path: jipesfft-complete/target/classes/
+
+      - name: Get Windows x64 native lib
+        uses: actions/download-artifact@v2
+        with:
+          name: nativelibs-x64-win
+          path: jipesfft-complete/target/classes/
 
       - id: publish-to-central
         name: Publish to Central Repository
