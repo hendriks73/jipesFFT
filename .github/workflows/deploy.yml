@@ -14,28 +14,17 @@ on:
 
 jobs:
 
-  windows-build:
+  windows-x64-build:
 
     runs-on: windows-2019
-    strategy:
-      matrix:
-        arch: [x64, x86]
-        java: [ 9 ]
-        include:
-          - arch: x64
-            sys: mingw64
-            env: x86_64
-          - arch: x86
-            sys: mingw32
-            env: i686
     defaults:
       run:
         shell: msys2 {0}
     steps:
       - uses: msys2/setup-msys2@v2
         with:
-          msystem: ${{ matrix.sys }}
-          install: mingw-w64-${{ matrix.env }}-toolchain
+          msystem: mingw64
+          install: mingw-w64-x86_64-toolchain
           path-type: inherit
 
       - uses: actions/checkout@v2
@@ -43,7 +32,7 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v1
         with:
-          java-version: ${{ matrix.java }}
+          java-version: 9
 
 # use cache to transport artifacts to the next job
       - uses: actions/cache@v1
@@ -56,24 +45,55 @@ jobs:
       - name: Build/test code with Maven
         run: |
           which mvn
-          mvn -P platform-win-${{ matrix.arch }} -B install --file pom.xml
+          mvn -P platform-win-x64 -B install --file pom.xml
+
+
+  windows-x86-build:
+
+    needs: windows-x64-build
+    runs-on: windows-2019
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: mingw32
+          install: mingw-w64-i686-toolchain
+          path-type: inherit
+
+      - uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 9
+
+      # use cache to transport artifacts to the next job
+      - uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            maven-
+
+      - name: Build/test code with Maven
+        run: |
+          which mvn
+          mvn -P platform-win-x86 -B install --file pom.xml
 
 
   linux-build:
 
     needs: windows-build
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ ubuntu-20.04 ]
-        java: [ 9 ]
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2
       - name: Set up Java
         uses: actions/setup-java@v1
         with:
-          java-version: ${{ matrix.java }}
+          java-version: 9
 
 # use cache to transport artifacts to the next job
       - uses: actions/cache@v1
