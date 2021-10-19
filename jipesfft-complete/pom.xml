@@ -267,29 +267,6 @@
                 </property>
             </activation>
             <dependencies>
-                <!-- Windows -->
-                <dependency>
-                    <groupId>com.tagtraum</groupId>
-                    <artifactId>jipesfft-x86_64-win</artifactId>
-                    <version>${project.version}</version>
-                    <type>dll</type>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>com.tagtraum</groupId>
-                    <artifactId>jipesfft-i386-win</artifactId>
-                    <version>${project.version}</version>
-                    <type>dll</type>
-                    <scope>provided</scope>
-                </dependency>
-                <!-- Linux -->
-                <dependency>
-                    <groupId>com.tagtraum</groupId>
-                    <artifactId>jipesfft-x86_64-unix</artifactId>
-                    <version>${project.version}</version>
-                    <type>so</type>
-                    <scope>provided</scope>
-                </dependency>
                 <!-- Mac -->
                 <dependency>
                     <groupId>com.tagtraum</groupId>
@@ -320,32 +297,6 @@
                                 </goals>
                                 <configuration>
                                     <artifactItems>
-                                        <!-- Windows -->
-                                        <artifactItem>
-                                            <groupId>com.tagtraum</groupId>
-                                            <artifactId>jipesfft-x86_64-win</artifactId>
-                                            <version>${project.version}</version>
-                                            <type>dll</type>
-                                            <overWrite>true</overWrite>
-                                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
-                                        </artifactItem>
-                                        <artifactItem>
-                                            <groupId>com.tagtraum</groupId>
-                                            <artifactId>jipesfft-i386-win</artifactId>
-                                            <version>${project.version}</version>
-                                            <type>dll</type>
-                                            <overWrite>true</overWrite>
-                                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
-                                        </artifactItem>
-                                        <!-- Linux -->
-                                        <artifactItem>
-                                            <groupId>com.tagtraum</groupId>
-                                            <artifactId>jipesfft-x86_64-unix</artifactId>
-                                            <version>${project.version}</version>
-                                            <type>so</type>
-                                            <overWrite>true</overWrite>
-                                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
-                                        </artifactItem>
                                         <!-- Mac -->
                                         <artifactItem>
                                             <groupId>com.tagtraum</groupId>
