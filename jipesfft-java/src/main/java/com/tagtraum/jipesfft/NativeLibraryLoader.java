@@ -152,7 +152,7 @@ public final class NativeLibraryLoader {
                 throw new FileNotFoundException("No matching files in " + directory);
             }
             return libs[0].toString();
-        } catch (UnsupportedEncodingException | MalformedURLException e) {
+        } catch (MalformedURLException e) {
             final FileNotFoundException fnfe = new FileNotFoundException(name + ": " + e);
             fnfe.initCause(e);
             throw fnfe;
@@ -164,8 +164,10 @@ public final class NativeLibraryLoader {
      *
      * @param baseClass base class
      * @return classpath or the directory of the JAR of the given class.
+     * @throws MalformedURLException if we cannot create a URL
+     * @throws FileNotFoundException if we cannot get the URL of the base class
      */
-    public static File getClasspathOrJarDir(final Class<?> baseClass) throws UnsupportedEncodingException, MalformedURLException, FileNotFoundException {
+    public static File getClasspathOrJarDir(final Class<?> baseClass) throws MalformedURLException, FileNotFoundException {
         File directory = null;
         final URL url = baseClass.getResource(baseClass.getSimpleName() + CLASS_FILE_EXTENSION);
         if (url == null) {

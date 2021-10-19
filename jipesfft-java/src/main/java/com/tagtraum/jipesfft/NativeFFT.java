@@ -63,6 +63,7 @@ public class NativeFFT {
     /**
      * Perform real FFT.
      *
+     * @param pointer pointer to a native FFT object
      * @param forward indicates whether this is a forward or inverse DFT
      * @param numberOfSamples number of samples
      * @param realIn input array of floats
