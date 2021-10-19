@@ -288,13 +288,8 @@
     <profiles>
         <!-- Windows-specific Config 32 bit-->
         <profile>
+            <!-- must be explicitly activated! -->
             <id>platform-win-x86</id>
-            <activation>
-                <os>
-                    <family>windows</family>
-                    <arch>x86</arch>
-                </os>
-            </activation>
             <modules>
                 <module>jipesfft-i386-win</module>
             </modules>
@@ -313,13 +308,8 @@
 
         <!-- Windows-specific Config 64 bit-->
         <profile>
+            <!-- must be explicitly activated! -->
             <id>platform-win-x64</id>
-            <activation>
-                <os>
-                    <family>windows</family>
-                    <arch>amd64</arch>
-                </os>
-            </activation>
             <modules>
                 <module>jipesfft-x86_64-win</module>
             </modules>
