@@ -288,7 +288,7 @@
     <profiles>
         <!-- Windows-specific Config 32 bit-->
         <profile>
-            <id>platform-win32</id>
+            <id>platform-win-x86</id>
             <activation>
                 <os>
                     <family>windows</family>
@@ -313,7 +313,7 @@
 
         <!-- Windows-specific Config 64 bit-->
         <profile>
-            <id>platform-win64</id>
+            <id>platform-win-x64</id>
             <activation>
                 <os>
                     <family>windows</family>

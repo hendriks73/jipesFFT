@@ -82,7 +82,7 @@ jobs:
       - name: Build/test code with Maven
         run: |
           which mvn
-          mvn -B install --file pom.xml
+          mvn -P platform-win-${{ matrix.arch }} -B install --file pom.xml
 
       - name: Upload CodeCov Report
         uses: codecov/codecov-action@v2
