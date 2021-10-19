@@ -8,7 +8,7 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>jipesfft-x86_64-win</artifactId>
-	<packaging>dylib</packaging>
+	<packaging>dll</packaging>
 	<name>jipesFFT Native Window Library (x86_64)</name>
 	<description>x86_64 library for jipesFFT.</description>
 
