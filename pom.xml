@@ -286,31 +286,49 @@
     </properties>
 
     <profiles>
-        <!-- Windows-specific Config -->
+        <!-- Windows-specific Config 32 bit-->
         <profile>
-            <id>platform-win</id>
+            <id>platform-win32</id>
             <activation>
                 <os>
                     <family>windows</family>
+                    <arch>x86</arch>
                 </os>
             </activation>
             <modules>
-                <module>jipesfft-x86_64-win</module>
                 <module>jipesfft-i386-win</module>
             </modules>
             <properties>
-                <!-- will be overwritten by 64 bit sub-module -->
                 <target>WIN32</target>
                 <gcc.code>-m32</gcc.code>
 
                 <ccompiler>gcc</ccompiler>
-                <!--
-                <mingw.i386.path>/Users/hendrik/mingw/mingw-w32-i686/bin</mingw.i386.path>
-                <mingw.i386.crossprefix>i686-w64-mingw32-</mingw.i386.crossprefix>
-                <mingw.x86_64.path>/Users/hendrik/mingw/mingw-w64-i686/bin</mingw.x86_64.path>
-                <mingw.x86_64.crossprefix>x86_64-w64-mingw32-</mingw.x86_64.crossprefix>
-                -->
+                <headers.jni>${env.JAVA_HOME}/include/</headers.jni>
+                <headers.os>win32</headers.os>
+                <compiler.startoptions>${cflags} ${gcc.code} -DTARGET_OS_${target} -Wall -x c -Wno-multichar -D_JNI_IMPLEMENTATION_</compiler.startoptions>
+                <linker.startoptions>${gcc.code} -Wl,--kill-at -Wl,--allow-multiple-definition -static-libgcc -shared -Os -s</linker.startoptions>
+                <linker.endoptions>-lws2_32</linker.endoptions>
+            </properties>
+        </profile>
 
+    <profiles>
+        <!-- Windows-specific Config 64 bit-->
+        <profile>
+            <id>platform-win64</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                    <arch>amd64</arch>
+                </os>
+            </activation>
+            <modules>
+                <module>jipesfft-x86_64-win</module>
+            </modules>
+            <properties>
+                <target>WIN64</target>
+                <gcc.code>-m64</gcc.code>
+
+                <ccompiler>gcc</ccompiler>
                 <headers.jni>${env.JAVA_HOME}/include/</headers.jni>
                 <headers.os>win32</headers.os>
                 <compiler.startoptions>${cflags} ${gcc.code} -DTARGET_OS_${target} -Wall -x c -Wno-multichar -D_JNI_IMPLEMENTATION_</compiler.startoptions>
