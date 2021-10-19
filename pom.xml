@@ -293,6 +293,23 @@
             <modules>
                 <module>jipesfft-i386-win</module>
             </modules>
+            <build>
+                <plugins>
+                    <plugin>
+                        <!--
+                        We are building this on a x86_64 with a i386
+                        toolchain. Because of this mismatch we cannot
+                        test the native code and skip testing
+                        altogether.
+                        -->
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
             <properties>
                 <target>WIN32</target>
                 <gcc.code>-m32</gcc.code>
