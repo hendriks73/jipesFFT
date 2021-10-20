@@ -19,8 +19,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ macos-10.15, macos-latest, macos-11 ]
-        java: [ 9 ]
+        os: [ macos-10.15, macos-latest ]
+        java: [ 9, 11, 15, 17 ]
 
     steps:
       - uses: actions/checkout@v2
@@ -54,7 +54,7 @@ jobs:
     strategy:
       matrix:
         arch: [x64, x86]
-        java: [ 9 ]
+        java: [ 9, 11, 15, 17 ]
         include:
           - arch: x64
             sys: mingw64
@@ -98,8 +98,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ ubuntu-latest ]
-        java: [ 9 ]
+        os: [ ubuntu-18.04, ubuntu-latest ]
+        java: [ 9, 11, 15, 17 ]
 
     steps:
       - uses: actions/checkout@v2
