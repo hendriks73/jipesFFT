@@ -265,7 +265,7 @@ jobs:
             --batch-mode \
             -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
             -P release \
-            clean javadoc:aggregate deploy --file pom.xml
+            javadoc:aggregate deploy --file pom.xml
 
       # deploy javadocs to github pages
       - name: Deploy Javadocs to GitHub Pages Branch
