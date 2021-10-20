@@ -27,12 +27,22 @@ jobs:
           install: mingw-w64-x86_64-toolchain
           path-type: inherit
 
+      - id: install-secret-key
+        name: Install gpg secret key
+        run: |
+          cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
+          gpg --list-secret-keys --keyid-format LONG
+
       - uses: actions/checkout@v2
 
-      - name: Set up Java
+      - name: Set up publication to Maven Central
         uses: actions/setup-java@v1
         with:
           java-version: 9
+          architecture: x64
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
 
 # use cache to transport artifacts to the next job
       - uses: actions/cache@v1
@@ -54,6 +64,21 @@ jobs:
           path: nativelibs
           retention-days: 1
 
+      - id: publish-native-lib-to-central
+        name: Publish to Central Repository
+        working-directory: jipesfft-x86_64-win
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          GPG_TTY: $(tty)
+        run: |
+          mvn \
+            --no-transfer-progress \
+            --batch-mode \
+            -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
+            -P release \
+            clean --file pom.xml
+
   windows-x86-build:
 
     runs-on: windows-2019
@@ -67,12 +92,22 @@ jobs:
           install: mingw-w64-i686-toolchain
           path-type: inherit
 
+      - id: install-secret-key
+        name: Install gpg secret key
+        run: |
+          cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
+          gpg --list-secret-keys --keyid-format LONG
+
       - uses: actions/checkout@v2
 
-      - name: Set up Java
+      - name: Set up publication to Maven Central
         uses: actions/setup-java@v1
         with:
           java-version: 9
+          architecture: x64
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
 
       # use cache to transport artifacts to the next job
       - uses: actions/cache@v1
@@ -94,6 +129,21 @@ jobs:
           path: nativelibs
           retention-days: 1
 
+      - id: publish-native-lib-to-central
+        name: Publish to Central Repository
+        working-directory: jipesfft-i386-win
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          GPG_TTY: $(tty)
+        run: |
+          mvn \
+            --no-transfer-progress \
+            --batch-mode \
+            -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
+            -P release \
+            clean --file pom.xml
+
 
   linux-build:
 
@@ -101,10 +151,21 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Java
+
+      - id: install-secret-key
+        name: Install gpg secret key
+        run: |
+          cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
+          gpg --list-secret-keys --keyid-format LONG
+
+      - name: Set up publication to Maven Central
         uses: actions/setup-java@v1
         with:
           java-version: 9
+          architecture: x64
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
 
 # use cache to transport artifacts to the next job
       - uses: actions/cache@v1
@@ -124,6 +185,21 @@ jobs:
           path: nativelibs
           retention-days: 1
 
+      - id: publish-native-lib-to-central
+        name: Publish to Central Repository
+        working-directory: jipesfft-x86_64-unix
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          GPG_TTY: $(tty)
+        run: |
+          mvn \
+            --no-transfer-progress \
+            --batch-mode \
+            -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
+            -P release \
+            clean --file pom.xml
+
 
   macos-build:
 
@@ -136,6 +212,7 @@ jobs:
         run: |
           cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
           gpg --list-secret-keys --keyid-format LONG
+
       - uses: actions/checkout@v2
 
       - name: Set up publication to Maven Central
