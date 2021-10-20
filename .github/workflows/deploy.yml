@@ -55,7 +55,7 @@ jobs:
       - name: Build/test code with Maven
         run: |
           which mvn
-          mvn -P platform-win-x64 -B install --file pom.xml
+          mvn --activate-profiles platform-win-x64 --batch-mode install --file pom.xml
 
       - run: mkdir nativelibs && cp jipesfft-x86_64-win/target/*.dll nativelibs
       - uses: actions/upload-artifact@v2
@@ -66,18 +66,18 @@ jobs:
 
       - id: publish-native-lib-to-central
         name: Publish to Central Repository
-        working-directory: jipesfft-x86_64-win
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
           GPG_TTY: $(tty)
         run: |
           mvn \
+            --projects jipesfft-x86_64-win \
             --no-transfer-progress \
             --batch-mode \
             -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
-            -P release \
-            clean --file pom.xml
+            --activate-profiles release,platform-win-x64 \
+            --file pom.xml
 
   windows-x86-build:
 
@@ -120,7 +120,7 @@ jobs:
       - name: Build/test code with Maven
         run: |
           which mvn
-          mvn -P platform-win-x86 -B install --file pom.xml
+          mvn --activate-profiles platform-win-x86 --batch-mode install --file pom.xml
 
       - run: mkdir nativelibs && cp jipesfft-i386-win/target/*.dll nativelibs
       - uses: actions/upload-artifact@v2
@@ -131,18 +131,18 @@ jobs:
 
       - id: publish-native-lib-to-central
         name: Publish to Central Repository
-        working-directory: jipesfft-i386-win
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
           GPG_TTY: $(tty)
         run: |
           mvn \
+            --projects jipesfft-i386-win \
             --no-transfer-progress \
             --batch-mode \
             -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
-            -P release \
-            clean --file pom.xml
+            --activate-profiles release,platform-win-x86 \
+            --file pom.xml
 
 
   linux-build:
@@ -176,7 +176,7 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Build/test code with Maven
-        run: mvn -B install --file pom.xml
+        run: mvn --batch-mode install --file pom.xml
 
       - run: mkdir nativelibs && cp jipesfft-x86_64-unix/target/*.so nativelibs
       - uses: actions/upload-artifact@v2
@@ -187,18 +187,18 @@ jobs:
 
       - id: publish-native-lib-to-central
         name: Publish to Central Repository
-        working-directory: jipesfft-x86_64-unix
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
           GPG_TTY: $(tty)
         run: |
           mvn \
+            --projects jipesfft-x86_64-unix \
             --no-transfer-progress \
             --batch-mode \
             -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
-            -P release \
-            clean --file pom.xml
+            --activate-profiles release,platform-linux \
+            --file pom.xml
 
 
   macos-build:
@@ -264,7 +264,7 @@ jobs:
             --no-transfer-progress \
             --batch-mode \
             -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
-            -P release \
+            --activate-profiles release \
             javadoc:aggregate deploy --file pom.xml
 
       # deploy javadocs to github pages
