@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.tagtraum</groupId>
         <artifactId>jipesfft</artifactId>
-        <version>0.9.1-SNAPSHOT</version>
+        <version>0.9.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>jipesfft-complete</artifactId>
@@ -16,17 +16,18 @@
             <groupId>com.tagtraum</groupId>
             <artifactId>jipesfft-java</artifactId>
             <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
         <plugins>
+            <plugin>
+                <artifactId>maven-site-plugin</artifactId>
+                <configuration>
+                    <generateReports>false</generateReports>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
@@ -39,17 +40,46 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>${project.build.directory}/native</source>
+                                <source>${project.build.directory}/upstream-sources/</source>
                             </sources>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
             <plugin>
-                <artifactId>maven-site-plugin</artifactId>
-                <configuration>
-                    <generateReports>false</generateReports>
-                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.tagtraum</groupId>
+                                    <artifactId>jipesfft-java</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <excludes>META-INF/maven/com.tagtraum/jipesfft-java/**</excludes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.tagtraum</groupId>
+                                    <artifactId>jipesfft-java</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                    <classifier>sources</classifier>
+                                    <outputDirectory>${project.build.directory}/upstream-sources/</outputDirectory>
+                                    <excludes>META-INF/**</excludes>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

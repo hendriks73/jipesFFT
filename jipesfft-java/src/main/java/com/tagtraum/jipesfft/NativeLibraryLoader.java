@@ -27,7 +27,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  *
  * @author <a href="mailto:hs@tagtraum.com">Hendrik Schreiber</a>
  */
-public final class NativeLibraryLoader {
+final class NativeLibraryLoader {
 
     private static final Logger LOG = Logger.getLogger(NativeLibraryLoader.class.getName());
     public static final String VERSION = readProjectVersion();
@@ -184,7 +184,10 @@ public final class NativeLibraryLoader {
         return directory;
     }
 
-    public static class LibFileFilter implements FileFilter {
+    /**
+     * Native library file filter.
+     */
+    static class LibFileFilter implements FileFilter {
         private final String libName;
 
         public LibFileFilter(final String libName) {

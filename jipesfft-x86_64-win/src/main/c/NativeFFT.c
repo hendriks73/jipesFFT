@@ -8,31 +8,31 @@
 #include <stdbool.h>
 #include <math.h>
 #include "FFT.h"
-#include "com_tagtraum_jipesfft_NativeFFT.h"
+#include "com_tagtraum_jipesfft_FFT.h"
 
 
 /*
- * Class:     com_tagtraum_jipesfft_NativeFFT
+ * Class:     com_tagtraum_jipesfft_FFT
  * Method:    init
  * Signature: (I)J
  */
-JNIEXPORT jlong JNICALL Java_com_tagtraum_jipesfft_NativeFFT_init
+JNIEXPORT jlong JNICALL Java_com_tagtraum_jipesfft_FFT_init
     (JNIEnv * env, jclass clazz, jint numberOfSamples) {
     // do nothing
     return 1L;
 }
 
 /*
- * Class:     com_tagtraum_jipesfft_NativeFFT
+ * Class:     com_tagtraum_jipesfft_FFT
  * Method:    destroy
  * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_com_tagtraum_jipesfft_NativeFFT_destroy
+JNIEXPORT void JNICALL Java_com_tagtraum_jipesfft_FFT_destroy
     (JNIEnv * env, jclass clazz, jlong fftSetupPointer) {
     // do nothing
 }
 
-JNIEXPORT jobjectArray JNICALL Java_com_tagtraum_jipesfft_NativeFFT_realFFT
+JNIEXPORT jobjectArray JNICALL Java_com_tagtraum_jipesfft_FFT_realFFT
     (JNIEnv * env, jclass clazz, jlong setupPointer, jboolean forward, jint numberOfSamples, jfloatArray jrealIn, jfloatArray jimagIn) {
 
     float * realIn = NULL;
