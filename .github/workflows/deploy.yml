@@ -77,7 +77,8 @@ jobs:
             --batch-mode \
             -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
             --activate-profiles release,platform-win-x64 \
-            --file pom.xml
+            --file pom.xml \
+            deploy
 
   windows-x86-build:
 
@@ -142,7 +143,8 @@ jobs:
             --batch-mode \
             -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
             --activate-profiles release,platform-win-x86 \
-            --file pom.xml
+            --file pom.xml \
+            deploy
 
 
   linux-build:
@@ -198,7 +200,8 @@ jobs:
             --batch-mode \
             -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
             --activate-profiles release,platform-linux \
-            --file pom.xml
+            --file pom.xml  \
+            deploy
 
 
   macos-build:
