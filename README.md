@@ -1,7 +1,7 @@
 [![LGPL 2.1](https://img.shields.io/badge/License-LGPL_2.1-blue.svg)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.tagtraum/jipesfft/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.tagtraum/jipesfft)
 [![Build and Test](https://github.com/hendriks73/jipesFFT/workflows/Build%20and%20Test/badge.svg)](https://github.com/hendriks73/jipesFFT/actions)
-[![CodeCov](https://codecov.io/gh/hendriks73/jipesFFT/branch/main/graph/badge.svg?token=H98FM0SKQL)](https://codecov.io/gh/hendriks73/jipesFFT/branch/main)
+[![CodeCov](https://codecov.io/gh/hendriks73/jipesFFT/branch/main/graph/badge.svg?token=DFf7RcXFkf)](https://codecov.io/gh/hendriks73/jipesFFT/branch/main)
 
 
 # jipesFFT
