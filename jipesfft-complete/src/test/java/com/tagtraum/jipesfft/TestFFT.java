@@ -39,7 +39,11 @@ public class TestFFT {
                 || p.getFileName().toString().endsWith(".dll");
             final List<Path> dylibs = walk.filter(pred).collect(Collectors.toList());
             for (final Path p : dylibs)
-                Files.deleteIfExists(p);
+                try {
+                    Files.deleteIfExists(p);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
         }
     }
 
