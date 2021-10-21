@@ -126,7 +126,7 @@ JNIEXPORT jobjectArray JNICALL Java_com_tagtraum_jipesfft_FFT_realFFT
 
     BAIL:
 
-        if (realOut) free(realOut);
+    if (realOut) free(realOut);
     if (imagOut) free(imagOut);
     if (realIn) free(realIn);
     if (imagIn) free(imagIn);
