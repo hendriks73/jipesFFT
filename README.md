@@ -6,11 +6,13 @@
 
 # jipesFFT
 
-Native FFT implementations for Java (macOS, Windows, Linux).
+Native FFT (Fast Fourier Transformation) implementations for Java
+(macOS, Windows, Linux).
 
 The macOS version uses Apple's [Accelerate
 framework](https://developer.apple.com/documentation/accelerate).
-Windows and Linux versions use a more ordinary implementation.
+Windows and Linux versions use more ordinary implementations.
+
 
 ## Installation
 
@@ -26,12 +28,49 @@ You can install it via the following dependency:
 </dependencies>
 ```
 
+## Usage
+
+Here's a simple example that demonstrates how the `com.tagtraum.jipesfft.FFT`
+class can be used:
+
+```java
+import com.tagtraum.jipesfft.FFT;
+
+class Demo {
+    public static void main(final String[] args) {
+        // create a new FFT instance suitable for a window length
+        // of 8 samples
+        final FFT fft = new FFT(8);
+        final float[] result = fft.transform(new float[]{0, 0, 0, 1, 0, 0, 0, 1});
+        // real part of the complex result
+        float[] real = result[FFT.REAL];
+        // imaginary part of the complex result
+        float[] imaginary = result[FFT.IMAGINARY];
+        // frequencies for the result - must still be multiplied with sampling
+        // frequency. Second half of frequency array is not necessarily useful.
+        float[] frequencies = result[FFT.FREQUENCY];
+        
+        // go on and do something with it...
+    }
+}
+```
+
 ## Java Module
 
 JaplScript is shipped as a Java module
 (see [JPMS](https://en.wikipedia.org/wiki/Java_Platform_Module_System))
 with the name `tagtraum.jipesfft`.
 
+
 ## API
 
 You can find the complete [API here](https://hendriks73.github.io/jipesFFT/).
+                       
+
+## Additional Resources
+
+- [Discrete Fourier Transform (Wikipedia)](https://en.wikipedia.org/wiki/Discrete_Fourier_transform)
+- [Intro to Discrete Fourier Transform by M. Müller and F. Zalkow](https://www.audiolabs-erlangen.de/resources/MIR/FMP/C2/C2_DFT-FFT.html)
+- [Fast Fourier Transform (algorithm)](https://en.wikipedia.org/wiki/Fast_Fourier_transform)
+- [Nyquist Frequency](https://en.wikipedia.org/wiki/Nyquist_frequency)
+- [Fundamentals of Music Processing by Meinard Müller](https://www.springer.com/gp/book/9783030698072) 

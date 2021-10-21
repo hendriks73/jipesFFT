@@ -24,11 +24,11 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Test FFT.
+ * Test PureJavaFFT.
  *
  * @author <a href="mailto:hs@tagtraum.com">Hendrik Schreiber</a>
  */
-public class TestFFT {
+public class TestPureJavaFFT {
 
     @BeforeAll
     public static void removeOldNativeLibs() throws IOException {
@@ -66,41 +66,41 @@ public class TestFFT {
 
     @Test
     public void testNumberOfSamples() {
-        final FFT fft = new FFT(8);
+        final PureJavaFFT fft = new PureJavaFFT(8);
         assertEquals(8, fft.getNumberOfSamples());
     }
 
     @Test
     public void testNegativeNumberOfSamples() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new FFT(-1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new PureJavaFFT(-1));
     }
 
     @Test
     public void testGetFrequencyForBin() {
-        final FFT fft = new FFT(8);
+        final PureJavaFFT fft = new PureJavaFFT(8);
         assertEquals(0f, fft.getFrequencyForBin(0));
         assertEquals(-0.125f, fft.getFrequencyForBin(7));
     }
 
     @Test
     public void testGetFrequencyForNegativeBin() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new FFT(8).getFrequencyForBin(-1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new PureJavaFFT(8).getFrequencyForBin(-1));
     }
 
     @Test
     public void testGetFrequencyForTooLargeBin() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new FFT(8).getFrequencyForBin(8));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new PureJavaFFT(8).getFrequencyForBin(8));
     }
 
     @Test
     public void testGetFrequencies() {
-        final FFT fft = new FFT(8);
+        final PureJavaFFT fft = new PureJavaFFT(8);
         assertArrayEquals(new float[]{0.0f, 0.125f, 0.25f, 0.375f, 0.5f, -0.375f, -0.25f, -0.125f}, fft.getFrequencies());
     }
 
     @Test
     public void testToString() {
-        final FFT fft = new FFT(8);
-        assertEquals("FFT{N=8}", fft.toString());
+        final PureJavaFFT fft = new PureJavaFFT(8);
+        assertEquals("PureJavaFFT{N=8}", fft.toString());
     }
 }
