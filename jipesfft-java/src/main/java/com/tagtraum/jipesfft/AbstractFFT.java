@@ -82,7 +82,7 @@ public abstract class AbstractFFT {
      * frequency to get actual Hz values. Also note, that values
      * beyond {@code N/2} (<a href="https://en.wikipedia.org/wiki/Nyquist_frequency">Nyquist
      * frequency</a>) are typically not useful.
-     * <p/>
+     * <p>
      * The returned array is a clone, you may do with it whatever you want.
      *
      * @return array with frequencies for the FFT (bins == index)
