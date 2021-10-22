@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
+import java.util.Locale;
 
 import static com.tagtraum.jipesfft.NativeLibraryLoader.decodeURL;
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,7 +43,11 @@ public class TestNativeLibraryLoader {
         assertFalse(mylib.accept(new File("mylib.dylib")));
         final File tempFile = File.createTempFile("mylib", ".dylib");
         tempFile.deleteOnExit();
-        assertTrue(mylib.accept(tempFile));
+        if (System.getProperty("os.name").toLowerCase(Locale.ROOT).contains("mac")) {
+            assertTrue(mylib.accept(tempFile));
+        } else {
+            assertFalse(mylib.accept(tempFile));
+        }
     }
 
     @Test
