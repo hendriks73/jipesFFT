@@ -38,19 +38,22 @@ import com.tagtraum.jipesfft.FFT;
 
 class Demo {
     public static void main(final String[] args) {
-        // create a new FFT instance suitable for a window length
-        // of 8 samples
-        final FFT fft = new FFT(8);
-        final float[] result = fft.transform(new float[]{0, 0, 0, 1, 0, 0, 0, 1});
-        // real part of the complex result
-        float[] real = result[FFT.REAL];
-        // imaginary part of the complex result
-        float[] imaginary = result[FFT.IMAGINARY];
-        // frequencies for the result - must still be multiplied with sampling
-        // frequency. Second half of frequency array is not necessarily useful.
-        float[] frequencies = result[FFT.FREQUENCY];
-        
-        // go on and do something with it...
+        // Create a new FFT instance suitable
+        // for a window length of 8 samples.
+        // Do this in a "try" statement to ensure native resources
+        // are freed in a timely fashion.
+        try (final FFT fft = new FFT(8)) {
+            final float[] result = fft.transform(new float[]{0, 0, 0, 1, 0, 0, 0, 1});
+            // real part of the complex result
+            float[] real = result[FFT.REAL];
+            // imaginary part of the complex result
+            float[] imaginary = result[FFT.IMAGINARY];
+            // frequencies for the result - must still be multiplied with sampling
+            // frequency. Second half of frequency array is not necessarily useful.
+            float[] frequencies = result[FFT.FREQUENCY];
+
+            // go on and do something with it...
+        }
     }
 }
 ```

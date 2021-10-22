@@ -42,17 +42,17 @@ JNIEXPORT jobjectArray JNICALL Java_com_tagtraum_jipesfft_FFT_realFFT
 
     if (numberOfSamples < 4) {
         jclass excCls = ( * env) -> FindClass(env, "java/lang/IllegalArgumentException");
-        ( * env) -> ThrowNew(env, excCls, "Number of samples is less than 4.");
+        ( * env) -> ThrowNew(env, excCls, "Number of samples is less than 4");
         return NULL;
     }
     if (numberOfSamples & (numberOfSamples - 1)) {
         jclass excCls = ( * env) -> FindClass(env, "java/lang/IllegalArgumentException");
-        ( * env) -> ThrowNew(env, excCls, "Number of samples is not a power of 2.");
+        ( * env) -> ThrowNew(env, excCls, "Number of samples is not a power of 2");
         return NULL;
     }
     if (( * env) -> GetArrayLength(env, jrealIn) < numberOfSamples) {
         jclass excCls = ( * env) -> FindClass(env, "java/lang/IllegalArgumentException");
-        ( * env) -> ThrowNew(env, excCls, "Number of samples must not be less than input array length.");
+        ( * env) -> ThrowNew(env, excCls, "Number of samples must not be less than input array length");
         return NULL;
     }
 

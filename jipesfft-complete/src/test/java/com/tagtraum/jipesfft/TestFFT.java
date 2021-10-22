@@ -49,29 +49,31 @@ public class TestFFT {
 
     @Test
     public void testTransformByComparison() {
-        final PureJavaFFT javaFFT = new PureJavaFFT(8);
-        final FFT nativeFFT = new FFT(8);
-        
-        final float[][] nativeRes = nativeFFT.transform(new float[]{0, 0, 0, 1, 0, 0, 0, 1});
-        final float[][] javaRes = javaFFT.transform(new float[]{0, 0, 0, 1, 0, 0, 0, 1});
+        try (final PureJavaFFT javaFFT = new PureJavaFFT(8);
+             final FFT nativeFFT = new FFT(8)) {
 
-        assertEquals(3, nativeRes.length);
-        assertArrayEquals(javaRes[REAL], nativeRes[REAL], 0.01f);
-        assertArrayEquals(javaRes[IMAGINARY], nativeRes[IMAGINARY], 0.01f);
-        assertArrayEquals(javaRes[FREQUENCY], nativeRes[FREQUENCY], 0.01f);
+            final float[][] nativeRes = nativeFFT.transform(new float[]{0, 0, 0, 1, 0, 0, 0, 1});
+            final float[][] javaRes = javaFFT.transform(new float[]{0, 0, 0, 1, 0, 0, 0, 1});
 
-        final float[][] nativeInverseRes = nativeFFT.inverseTransform(nativeRes[REAL], nativeRes[IMAGINARY]);
-        final float[][] javaInverseRes = javaFFT.inverseTransform(javaRes[REAL], javaRes[IMAGINARY]);
+            assertEquals(3, nativeRes.length);
+            assertArrayEquals(javaRes[REAL], nativeRes[REAL], 0.01f);
+            assertArrayEquals(javaRes[IMAGINARY], nativeRes[IMAGINARY], 0.01f);
+            assertArrayEquals(javaRes[FREQUENCY], nativeRes[FREQUENCY], 0.01f);
 
-        assertEquals(2, nativeInverseRes.length);
-        assertArrayEquals(javaInverseRes[REAL], nativeInverseRes[REAL], 0.01f);
-        assertArrayEquals(javaInverseRes[IMAGINARY], nativeInverseRes[IMAGINARY], 0.01f);
+            final float[][] nativeInverseRes = nativeFFT.inverseTransform(nativeRes[REAL], nativeRes[IMAGINARY]);
+            final float[][] javaInverseRes = javaFFT.inverseTransform(javaRes[REAL], javaRes[IMAGINARY]);
+
+            assertEquals(2, nativeInverseRes.length);
+            assertArrayEquals(javaInverseRes[REAL], nativeInverseRes[REAL], 0.01f);
+            assertArrayEquals(javaInverseRes[IMAGINARY], nativeInverseRes[IMAGINARY], 0.01f);
+        }
     }
 
     @Test
     public void testNumberOfSamples() {
-        final FFT fft = new FFT(8);
-        assertEquals(8, fft.getNumberOfSamples());
+        try (final FFT fft = new FFT(8)) {
+            assertEquals(8, fft.getNumberOfSamples());
+        }
     }
 
     @Test
@@ -81,9 +83,10 @@ public class TestFFT {
 
     @Test
     public void testGetFrequencyForBin() {
-        final FFT fft = new FFT(8);
-        assertEquals(0f, fft.getFrequencyForBin(0));
-        assertEquals(-0.125f, fft.getFrequencyForBin(7));
+        try (final FFT fft = new FFT(8)) {
+            assertEquals(0f, fft.getFrequencyForBin(0));
+            assertEquals(-0.125f, fft.getFrequencyForBin(7));
+        }
     }
 
     @Test
@@ -98,13 +101,32 @@ public class TestFFT {
 
     @Test
     public void testGetFrequencies() {
-        final FFT fft = new FFT(8);
-        assertArrayEquals(new float[]{0.0f, 0.125f, 0.25f, 0.375f, 0.5f, -0.375f, -0.25f, -0.125f}, fft.getFrequencies());
+        try (final FFT fft = new FFT(8)) {
+            assertArrayEquals(new float[]{0.0f, 0.125f, 0.25f, 0.375f, 0.5f, -0.375f, -0.25f, -0.125f}, fft.getFrequencies());
+        }
     }
 
     @Test
     public void testToString() {
-        final FFT fft = new FFT(8);
-        assertEquals("FFT{N=8}", fft.toString());
+        try (final FFT fft = new FFT(8)) {
+            assertEquals("FFT{N=8}", fft.toString());
+        }
     }
+
+    @Test
+    public void testTwoSampleFFT() {
+        try (final FFT fft = new FFT(2)) {
+            final float[][] result = fft.transform(new float[]{0, 1});
+            assertArrayEquals(new float[]{1f, -1f}, result[REAL], 0.01f);
+            assertArrayEquals(new float[]{0f, 0f}, result[IMAGINARY], 0.01f);
+            assertArrayEquals(new float[]{0f, 0.5f}, result[FREQUENCY], 0.01f);
+            assertEquals("FFT{N=2}", fft.toString());
+        }
+    }
+
+    @Test
+    public void testNumberOfSamplesPowerOfTwo() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new FFT(5));
+    }
+
 }

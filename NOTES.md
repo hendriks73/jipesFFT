@@ -3,6 +3,7 @@
     - Renamed some classes
     - Improved javadocs
     - Introduced module build
+    - Replaced finalize() with Cleaner logic
 
 
 - 0.9.1

@@ -11,7 +11,7 @@ package com.tagtraum.jipesfft;
  *
  * @author <a href="mailto:hs@tagtraum.com">Hendrik Schreiber</a>
  */
-public abstract class AbstractFFT {
+public abstract class AbstractFFT implements AutoCloseable {
 
     /** Index to be used on the result of {@link #transform(float[])} and the like. */
     public static final int REAL = 0;
@@ -144,4 +144,5 @@ public abstract class AbstractFFT {
      * @return three-dimensional array, consisting of the real part, the imaginary, and the frequencies
      */
     public abstract float[][] transform(float[] real, float[] imaginary) throws UnsupportedOperationException;
+
 }

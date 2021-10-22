@@ -107,4 +107,19 @@ public class TestPureJavaFFT {
         final PureJavaFFT fft = new PureJavaFFT(8);
         assertEquals("PureJavaFFT{N=8}", fft.toString());
     }
+
+    @Test
+    public void testTwoSampleFFT() {
+        final PureJavaFFT fft = new PureJavaFFT(2);
+        final float[][] result = fft.transform(new float[]{0, 1});
+        assertArrayEquals(new float[]{1f, -1f}, result[REAL], 0.01f);
+        assertArrayEquals(new float[]{0f, 0f}, result[IMAGINARY], 0.01f);
+        assertArrayEquals(new float[]{0f, 0.5f}, result[FREQUENCY], 0.01f);
+        assertEquals("PureJavaFFT{N=2}", fft.toString());
+    }
+
+    @Test
+    public void testNumberOfSamplesPowerOfTwo() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new PureJavaFFT(5));
+    }
 }

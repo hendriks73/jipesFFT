@@ -32,7 +32,7 @@ public class PureJavaFFT extends AbstractFFT {
     /**
      * Constructor for a given number of samples.
      *
-     * @param numberOfSamples number of samples you intend to transform
+     * @param numberOfSamples number of samples you intend to transform, must be a power of two
      */
     public PureJavaFFT(final int numberOfSamples) {
         super(numberOfSamples);
@@ -293,4 +293,8 @@ public class PureJavaFFT extends AbstractFFT {
         return getNumberOfSamples();
     }
 
+    @Override
+    public void close() {
+        // nothing to clean up
+    }
 }

@@ -6,6 +6,8 @@
  */
 package com.tagtraum.jipesfft;
 
+import java.lang.ref.Cleaner;
+
 /**
  * Native implementation of FFT for a specific number of samples.
  * Uses {@link PureJavaFFT} as a fallback for some cases.
@@ -19,20 +21,35 @@ public class FFT extends AbstractFFT {
         NativeLibraryLoader.loadLibrary();
     }
 
+    private static final Cleaner cleaner = Cleaner.create();
+    private final Cleaner.Cleanable cleanable;
+
     private PureJavaFFT javaFFT;
     private final long pointer;
 
     /**
      * Constructor for a given number of samples.
      *
-     * @param numberOfSamples number of samples you intend to transform
+     * @param numberOfSamples number of samples you intend to transform, must be a power of two
      */
     public FFT(final int numberOfSamples) {
         super(numberOfSamples);
-        this.pointer = init(numberOfSamples);
+        if (usePureJavaFFT()) {
+            this.pointer = 0;
+            this.cleanable = null;
+        } else {
+            this.pointer = init(numberOfSamples);
+            this.cleanable = cleaner.register(this, new Destroyer(this.pointer));
+        }
     }
 
-    private PureJavaFFT getJavaFFT() {
+    private boolean usePureJavaFFT() {
+        // TODO: check power of 2?
+        final int numberOfSamples = getNumberOfSamples();
+        return numberOfSamples < 4 || numberOfSamples > 32768;
+    }
+
+    private PureJavaFFT getPureJavaFFT() {
         if (javaFFT == null) {
             // instantiate lazily to avoid initialization overhead
             javaFFT = new PureJavaFFT(getNumberOfSamples());
@@ -42,16 +59,16 @@ public class FFT extends AbstractFFT {
 
     @Override
     public float[][] inverseTransform(final float[] real, final float[] imaginary) throws UnsupportedOperationException {
-        if (getNumberOfSamples() > 32768) {
-            return getJavaFFT().inverseTransform(real, imaginary);
+        if (usePureJavaFFT()) {
+            return getPureJavaFFT().inverseTransform(real, imaginary);
         }
         return FFT.realFFT(pointer, false, real.length, real, imaginary);
     }
 
     @Override
     public float[][] transform(final float[] real) throws UnsupportedOperationException {
-        if (getNumberOfSamples() > 32768) {
-            return getJavaFFT().transform(real);
+        if (usePureJavaFFT()) {
+            return getPureJavaFFT().transform(real);
         }
         final float[][] result = new float[3][];
         final float[][] nativeResult = FFT.realFFT(pointer, true, real.length, real, null);
@@ -64,7 +81,7 @@ public class FFT extends AbstractFFT {
     @Override
     public float[][] transform(final float[] real, final float[] imaginary) throws UnsupportedOperationException {
         // TODO: native version!
-        return getJavaFFT().transform(real, imaginary);
+        return getPureJavaFFT().transform(real, imaginary);
     }
 
     /**
@@ -85,11 +102,29 @@ public class FFT extends AbstractFFT {
     private static native void destroy(final long pointer);
 
     @Override
-    protected void finalize() throws Throwable {
-        if (pointer != 0) {
-            destroy(pointer);
+    public void close() {
+        if (cleanable != null) {
+            this.cleanable.clean();
         }
-        super.finalize();
     }
 
+    /**
+     * Hook that ensures native resources are eventually freed.
+     * This is the Java 9 equivalent of the deprecated {@link #finalize()}.
+     */
+    private static class Destroyer implements Runnable {
+        
+        private final long pointer;
+
+        public Destroyer(final long pointer) {
+            this.pointer = pointer;
+        }
+
+        @Override
+        public void run() {
+            if (pointer != 0) {
+                destroy(pointer);
+            }
+        }
+    }
 }
