@@ -6,6 +6,16 @@ name: Deploy
 # then all newlines were replaced with literal '\n'
 # see also https://gist.github.com/sualeh/ae78dc16123899d7942bc38baba5203c
 
+
+# README
+# This script
+#  - builds native libs for the supported platforms (except macOS)
+#  - uploads the native libs as GitHub artifacts
+#  - deploys the native libs to Sonatype
+#  - downloads all native libs artifacts
+#  - injects the artifacts into the macOS build (-> complete)
+#  - deploys the all macOS products
+
 on:
   push:
     branches:

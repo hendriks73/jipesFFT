@@ -8,31 +8,31 @@
 #include <stdbool.h>
 #include <math.h>
 #include "FFT.h"
-#include "com_tagtraum_jipesfft_NativeFFT.h"
+#include "com_tagtraum_jipesfft_FFT.h"
 
 
 /*
- * Class:     com_tagtraum_jipesfft_NativeFFT
+ * Class:     com_tagtraum_jipesfft_FFT
  * Method:    init
  * Signature: (I)J
  */
-JNIEXPORT jlong JNICALL Java_com_tagtraum_jipesfft_NativeFFT_init
+JNIEXPORT jlong JNICALL Java_com_tagtraum_jipesfft_FFT_init
     (JNIEnv * env, jclass clazz, jint numberOfSamples) {
     // do nothing
     return 1L;
 }
 
 /*
- * Class:     com_tagtraum_jipesfft_NativeFFT
+ * Class:     com_tagtraum_jipesfft_FFT
  * Method:    destroy
  * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_com_tagtraum_jipesfft_NativeFFT_destroy
+JNIEXPORT void JNICALL Java_com_tagtraum_jipesfft_FFT_destroy
     (JNIEnv * env, jclass clazz, jlong fftSetupPointer) {
     // do nothing
 }
 
-JNIEXPORT jobjectArray JNICALL Java_com_tagtraum_jipesfft_NativeFFT_realFFT
+JNIEXPORT jobjectArray JNICALL Java_com_tagtraum_jipesfft_FFT_realFFT
     (JNIEnv * env, jclass clazz, jlong setupPointer, jboolean forward, jint numberOfSamples, jfloatArray jrealIn, jfloatArray jimagIn) {
 
     float * realIn = NULL;
@@ -42,17 +42,17 @@ JNIEXPORT jobjectArray JNICALL Java_com_tagtraum_jipesfft_NativeFFT_realFFT
 
     if (numberOfSamples < 4) {
         jclass excCls = ( * env) -> FindClass(env, "java/lang/IllegalArgumentException");
-        ( * env) -> ThrowNew(env, excCls, "Number of samples is less than 4.");
+        ( * env) -> ThrowNew(env, excCls, "Number of samples is less than 4");
         return NULL;
     }
     if (numberOfSamples & (numberOfSamples - 1)) {
         jclass excCls = ( * env) -> FindClass(env, "java/lang/IllegalArgumentException");
-        ( * env) -> ThrowNew(env, excCls, "Number of samples is not a power of 2.");
+        ( * env) -> ThrowNew(env, excCls, "Number of samples is not a power of 2");
         return NULL;
     }
     if (( * env) -> GetArrayLength(env, jrealIn) < numberOfSamples) {
         jclass excCls = ( * env) -> FindClass(env, "java/lang/IllegalArgumentException");
-        ( * env) -> ThrowNew(env, excCls, "Number of samples must not be less than input array length.");
+        ( * env) -> ThrowNew(env, excCls, "Number of samples must not be less than input array length");
         return NULL;
     }
 
@@ -126,7 +126,7 @@ JNIEXPORT jobjectArray JNICALL Java_com_tagtraum_jipesfft_NativeFFT_realFFT
 
     BAIL:
 
-        if (realOut) free(realOut);
+    if (realOut) free(realOut);
     if (imagOut) free(imagOut);
     if (realIn) free(realIn);
     if (imagIn) free(imagIn);

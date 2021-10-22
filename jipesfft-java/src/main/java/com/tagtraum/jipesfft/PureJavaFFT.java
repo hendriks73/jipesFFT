@@ -7,17 +7,16 @@
 package com.tagtraum.jipesfft;
 
 /**
- * JavaFFT.
+ * Pure Java FFT for a specific number of samples.
+ * Used as a fallback for certain cases by {@link FFT}.
  *
  * @author <a href="mailto:hs@tagtraum.com">Hendrik Schreiber</a>
  */
-public class JavaFFT {
+public class PureJavaFFT extends AbstractFFT {
 
     private static final int MAX_FAST_BITS = 16;
     private static final int[][] FFT_BIT_TABLE = new int[MAX_FAST_BITS][];
-    private final int numberOfSamples;
     private final int[] reverseIndices;
-    private final float[] frequencies;
 
     static {
         int len = 2;
@@ -30,42 +29,58 @@ public class JavaFFT {
         }
     }
 
-    public JavaFFT(final int numberOfSamples) {
-        if (!isPowerOfTwo(numberOfSamples)) throw new IllegalArgumentException("N is not a power of 2");
-        this.numberOfSamples = numberOfSamples;
+    /**
+     * Constructor for a given number of samples.
+     *
+     * @param numberOfSamples number of samples you intend to transform, must be a power of two
+     */
+    public PureJavaFFT(final int numberOfSamples) {
+        super(numberOfSamples);
         final int numberOfBits = getNumberOfNeededBits(numberOfSamples);
         this.reverseIndices = new int[numberOfSamples];
         for (int i = 0; i < numberOfSamples; i++) {
             final int j = fastReverseBits(i, numberOfBits);
             this.reverseIndices[i] = j;
         }
-        this.frequencies = new float[numberOfSamples];
-        for (int index=0; index<numberOfSamples; index++) {
-            if (index <= numberOfSamples / 2) {
-                this.frequencies[index] = index / (float)numberOfSamples;
-            } else {
-                this.frequencies[index] = -((numberOfSamples - index) / (float) numberOfSamples);
-            }
-        }
     }
 
-    public float[][] inverseTransform(final float[] real, final float[] imaginary) throws UnsupportedOperationException {
+    /**
+     * Perform inverse transform.
+     *
+     * @param real real part
+     * @param imaginary imaginary part
+     * @return two-dimensional array for the real and the imaginary parts
+     */
+    public float[][] inverseTransform(final float[] real, final float[] imaginary) {
         final float[][] out = new float[2][real.length];
         transform(true, real, imaginary, out[0], out[1]);
         return out;
     }
 
-    public float[][] transform(final float[] real) throws UnsupportedOperationException {
+    /**
+     * Transform for real numbers.
+     *
+     * @param real samples
+     * @return three-dimensional array, consisting of the real part, the imaginary, and the frequencies
+     */
+    public float[][] transform(final float[] real) {
         final float[][] out = new float[3][real.length];
         transform(false, real, null, out[0], out[1]);
-        out[2] = frequencies.clone();
+        out[2] = getFrequencies();
         return out;
     }
 
-    public float[][] transform(final float[] real, final float[] imaginary) throws UnsupportedOperationException {
+    /**
+     * Transform for complex numbers.
+     *
+     * @param real real part
+     * @param imaginary imaginary part
+     * @return three-dimensional array, consisting of the real part, the imaginary, and the frequencies
+     */
+    public float[][] transform(final float[] real, final float[] imaginary) {
         final float[][] out = new float[3][real.length];
         transform(false, real, imaginary, out[0], out[1]);
-        out[2] = frequencies.clone();
+        out[2] = getFrequencies();
         return out;
     }
 
@@ -83,10 +98,10 @@ public class JavaFFT {
                           final float[] imaginaryIn,
                           final float[] realOut,
                           final float[] imaginaryOut) {
+        final int numberOfSamples = getNumberOfSamples();
         if (realIn.length != numberOfSamples) {
-            throw new IllegalArgumentException("Number of samples must be " + numberOfSamples + " for this instance of JavaFFT");
+            throw new IllegalArgumentException("Number of samples must be " + numberOfSamples + " for this instance of PureJavaFFT");
         }
-
         for (int i = 0; i < numberOfSamples; i++) {
             realOut[this.reverseIndices[i]] = realIn[i];
         }
@@ -146,10 +161,15 @@ public class JavaFFT {
 
         // normalize, if inverse transform
         if (inverse) {
-            for (int i = 0; i < numberOfSamples; i++) {
-                realOut[i] /= (float) numberOfSamples;
-                imaginaryOut[i] /= (float) numberOfSamples;
-            }
+            normalize(realOut, imaginaryOut);
+        }
+    }
+
+    private void normalize(final float[] realOut, final float[] imaginaryOut) {
+        final int numberOfSamples = getNumberOfSamples();
+        for (int i = 0; i < numberOfSamples; i++) {
+            realOut[i] /= (float) numberOfSamples;
+            imaginaryOut[i] /= (float) numberOfSamples;
         }
     }
 
@@ -168,10 +188,10 @@ public class JavaFFT {
                                 final float[] imaginaryIn,
                                 final float[] realOut,
                                 final float[] imaginaryOut) {
+        final int numberOfSamples = getNumberOfSamples();
         if (realIn.length != numberOfSamples) {
-            throw new IllegalArgumentException("Number of samples must be " + numberOfSamples + " for this instance of JavaFFT");
+            throw new IllegalArgumentException("Number of samples must be " + numberOfSamples + " for this instance of PureJavaFFT");
         }
-
         for (int i = 0; i < numberOfSamples; i++) {
             realOut[this.reverseIndices[i]] = realIn[i];
         }
@@ -231,10 +251,7 @@ public class JavaFFT {
 
         // normalize, if inverse transform
         if (inverse) {
-            for (int i = 0; i < numberOfSamples; i++) {
-                realOut[i] /= (float) numberOfSamples;
-                imaginaryOut[i] /= (float) numberOfSamples;
-            }
+            normalize(realOut, imaginaryOut);
         }
     }
 
@@ -262,28 +279,22 @@ public class JavaFFT {
             return reverseBits(index, numberOfBits);
     }
 
-    private static boolean isPowerOfTwo(final int number) {
-        return (number & (number - 1)) == 0;
-    }
-
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final JavaFFT javaFFT = (JavaFFT) o;
-        if (numberOfSamples != javaFFT.numberOfSamples) return false;
+        final PureJavaFFT javaFFT = (PureJavaFFT) o;
+        if (getNumberOfSamples() != javaFFT.getNumberOfSamples()) return false;
         return true;
     }
 
     @Override
     public int hashCode() {
-        return numberOfSamples;
+        return getNumberOfSamples();
     }
 
     @Override
-    public String toString() {
-        return "JavaFFT{" +
-            "N=" + numberOfSamples +
-            '}';
+    public void close() {
+        // nothing to clean up
     }
 }
