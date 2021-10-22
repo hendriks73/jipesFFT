@@ -72,6 +72,7 @@ public class TestPureJavaFFT {
     public void testNumberOfSamples() {
         final PureJavaFFT fft = new PureJavaFFT(8);
         assertEquals(8, fft.getNumberOfSamples());
+        assertEquals(fft.hashCode(), fft.getNumberOfSamples());
     }
 
     @Test
@@ -121,5 +122,17 @@ public class TestPureJavaFFT {
     @Test
     public void testNumberOfSamplesPowerOfTwo() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> new PureJavaFFT(5));
+    }
+
+    @Test
+    public void testManySamplesFFT() {
+        try (final PureJavaFFT fft = new PureJavaFFT(65536)) {
+            final float[] emptyArray = new float[65536];
+            final float[][] result = fft.transform(emptyArray);
+            assertArrayEquals(emptyArray, result[REAL], 0.01f);
+            assertArrayEquals(emptyArray, result[IMAGINARY], 0.01f);
+            // transform again!
+            fft.transform(emptyArray);
+        }
     }
 }

@@ -66,6 +66,13 @@ public class TestFFT {
             assertEquals(2, nativeInverseRes.length);
             assertArrayEquals(javaInverseRes[REAL], nativeInverseRes[REAL], 0.01f);
             assertArrayEquals(javaInverseRes[IMAGINARY], nativeInverseRes[IMAGINARY], 0.01f);
+
+            final float[][] nativeComplexRes = nativeFFT.transform(nativeRes[REAL], nativeRes[IMAGINARY]);
+            final float[][] javaComplexRes = javaFFT.transform(javaRes[REAL], javaRes[IMAGINARY]);
+
+            assertEquals(2, nativeInverseRes.length);
+            assertArrayEquals(javaComplexRes[REAL], nativeComplexRes[REAL], 0.01f);
+            assertArrayEquals(javaComplexRes[IMAGINARY], nativeComplexRes[IMAGINARY], 0.01f);
         }
     }
 
@@ -121,6 +128,19 @@ public class TestFFT {
             assertArrayEquals(new float[]{0f, 0f}, result[IMAGINARY], 0.01f);
             assertArrayEquals(new float[]{0f, 0.5f}, result[FREQUENCY], 0.01f);
             assertEquals("FFT{N=2}", fft.toString());
+        }
+    }
+
+    @Test
+    public void testManySamplesFFT() {
+        try (final FFT fft = new FFT(65536)) {
+            final float[] emptyArray = new float[65536];
+            final float[][] result = fft.transform(emptyArray);
+            assertArrayEquals(emptyArray, result[REAL], 0.01f);
+            assertArrayEquals(emptyArray, result[IMAGINARY], 0.01f);
+            assertEquals("FFT{N=65536}", fft.toString());
+            // transform again!
+            fft.transform(emptyArray);
         }
     }
 
