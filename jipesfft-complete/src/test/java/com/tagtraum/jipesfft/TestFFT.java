@@ -141,6 +141,9 @@ public class TestFFT {
             assertEquals("FFT{N=65536}", fft.toString());
             // transform again!
             fft.transform(emptyArray);
+            // and back
+            final float[][] inverseResult = fft.inverseTransform(result[REAL], result[IMAGINARY]);
+            // TODO: check!
         }
     }
 
