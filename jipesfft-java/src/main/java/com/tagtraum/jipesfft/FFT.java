@@ -7,6 +7,8 @@
 package com.tagtraum.jipesfft;
 
 import java.lang.ref.Cleaner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Native implementation of FFT for a specific number of samples.
@@ -17,8 +19,16 @@ import java.lang.ref.Cleaner;
  */
 public class FFT extends AbstractFFT {
 
+    private static final Logger LOG = Logger.getLogger(FFT.class.getName());
+    private static boolean nativeAvailable;
     static {
-        NativeLibraryLoader.loadLibrary();
+        try {
+            NativeLibraryLoader.loadLibrary();
+            nativeAvailable = true;
+        } catch (Throwable t) {
+            LOG.log(Level.WARNING, "Failed to load native FFT implementation. Will use pure Java fallback.", t);
+            nativeAvailable = false;
+        }
     }
 
     private static final Cleaner cleaner = Cleaner.create();
@@ -46,7 +56,7 @@ public class FFT extends AbstractFFT {
     private boolean usePureJavaFFT() {
         // TODO: check power of 2?
         final int numberOfSamples = getNumberOfSamples();
-        return numberOfSamples < 4 || numberOfSamples > 32768;
+        return !nativeAvailable || numberOfSamples < 4 || numberOfSamples > 32768;
     }
 
     private PureJavaFFT getPureJavaFFT() {

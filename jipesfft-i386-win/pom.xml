@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.tagtraum</groupId>
         <artifactId>jipesfft</artifactId>
-        <version>0.9.2</version>
+        <version>0.9.3</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>jipesfft-i386-win</artifactId>
