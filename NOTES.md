@@ -1,3 +1,8 @@
+- 0.9.3
+
+    - Added pure Java fallback mechanism, in case native library loading fails 
+
+
 - 0.9.2
  
     - Renamed some classes
