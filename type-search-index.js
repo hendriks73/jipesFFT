@@ -1,1 +1,1 @@
-typeSearchIndex = [{"p":"com.tagtraum.jipesfft","l":"JavaFFT"},{"p":"com.tagtraum.jipesfft","l":"NativeFFT"},{"p":"com.tagtraum.jipesfft","l":"NativeLibraryLoader"},{"p":"com.tagtraum.jipesfft","l":"NativeLibraryLoader.LibFileFilter"}]
+typeSearchIndex = [{"p":"com.tagtraum.jipesfft","l":"AbstractFFT"},{"p":"com.tagtraum.jipesfft","l":"FFT"},{"p":"com.tagtraum.jipesfft","l":"PureJavaFFT"}]

@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"com.tagtraum.jipesfft"}]
+packageSearchIndex = [{"m":"tagtraum.jipesfft","l":"com.tagtraum.jipesfft"}]
