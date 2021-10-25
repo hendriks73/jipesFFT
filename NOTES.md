@@ -1,6 +1,6 @@
 - 0.9.4
 
-    - Improve test coverage
+    - Improved test coverage
 
 
 - 0.9.3
