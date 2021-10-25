@@ -205,7 +205,7 @@
                     <bottom>
                         <![CDATA[
                         <div class="bottomNav" style="text-align: center; margin: 0; padding: 1em; height: auto;">
-                        <a href="${project.url}">jipesFFT</a> v${project.version},
+                        <a href="https://github.com/hendriks73/jipesFFT">jipesFFT</a> v${project.version},
                         Copyright &#169; {inceptionYear}&#x2013;{currentYear} {organizationName}. All rights reserved.
                         </div>
                         ]]>
