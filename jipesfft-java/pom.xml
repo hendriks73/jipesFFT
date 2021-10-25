@@ -3,13 +3,15 @@
     <parent>
         <groupId>com.tagtraum</groupId>
         <artifactId>jipesfft</artifactId>
-        <version>0.9.6</version>
+        <version>0.9.7</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>jipesfft-java</artifactId>
     <packaging>jar</packaging>
     <name>jipesFFT Java API</name>
+    <!--
     <properties>
         <maven.javadoc.skip>true</maven.javadoc.skip>
     </properties>
+    -->
 </project>
