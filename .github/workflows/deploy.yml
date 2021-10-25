@@ -273,6 +273,7 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
           GPG_TTY: $(tty)
         run: |
+          mvn --batch-mode install --file pom.xml
           mvn \
             --no-transfer-progress \
             --batch-mode \
