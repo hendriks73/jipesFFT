@@ -1,4 +1,4 @@
-- 0.9.5
+- 0.9.5/6
   - Attempt to fix deploy error
 
 
