@@ -1,3 +1,8 @@
+- 0.9.4
+
+    - Improved test coverage
+
+
 - 0.9.3
 
     - Added pure Java fallback mechanism, in case native library loading fails 

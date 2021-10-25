@@ -174,15 +174,14 @@ public class PureJavaFFT extends AbstractFFT {
     }
 
 
-    /**
-     * Actual fast Fourier transform implementation (using floats internally).
-     *
-     * @param inverse      inverse or not
-     * @param realIn       real portion input
-     * @param imaginaryIn  imaginary in
-     * @param realOut      real out
-     * @param imaginaryOut imaginary out
-     */
+    /*
+fast Fourier transform implementation using floats internally.
+
+@param inverse      inverse or not
+@param realIn       real portion input
+@param imaginaryIn  imaginary in
+@param realOut      real out
+@param imaginaryOut imaginary out
     private void transformFloat(final boolean inverse,
                                 final float[] realIn,
                                 final float[] imaginaryIn,
@@ -234,7 +233,7 @@ public class PureJavaFFT extends AbstractFFT {
                     ai1 = ai0;
 
                     final int k = j + blockEnd;
-                    /* temp real, temp imaginary */
+                    // temp real, temp imaginary
                     final float tr = ar0 * realOut[k] - ai0 * imaginaryOut[k];
                     final float ti = ar0 * imaginaryOut[k] + ai0 * realOut[k];
 
@@ -254,6 +253,7 @@ public class PureJavaFFT extends AbstractFFT {
             normalize(realOut, imaginaryOut);
         }
     }
+    */
 
     private static int getNumberOfNeededBits(final int powerOfTwo) {
         for (int i = 0; true; i++) {
