@@ -1,5 +1,6 @@
 - 0.9.9
-  - Fixed missing native libs in "complete" package 
+  - Fixed missing native libs in "complete" package
+  - Moved to actions/setup-java@v2 in GitHub build
 
 
 - 0.9.5 - 0.9.8
