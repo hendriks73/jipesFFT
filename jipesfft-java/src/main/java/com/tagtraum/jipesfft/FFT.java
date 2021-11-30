@@ -12,8 +12,8 @@ import java.util.logging.Logger;
 
 /**
  * Native implementation of FFT for a specific number of samples.
- * Uses {@link PureJavaFFT} as a fallback for some cases.
- * The implementation may be re-used for efficiency, but is not necessarily thread-safe.
+ * Uses {@link PureJavaFFT} as fallback for some cases.
+ * An instance may be re-used for efficiency, but is not necessarily thread-safe.
  *
  * @author <a href="mailto:hs@tagtraum.com">Hendrik Schreiber</a>
  */
