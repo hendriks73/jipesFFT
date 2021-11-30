@@ -1,5 +1,5 @@
 - 0.9.9
-  - Fixed missing native libs in "complete" package
+  - Fixed missing native libs in *complete* package
   - Moved to actions/setup-java@v2 in GitHub build
 
 
@@ -19,7 +19,7 @@
   - Renamed some classes
   - Improved javadocs
   - Introduced module build
-  - Replaced finalize() with Cleaner logic
+  - Replaced `finalize()` with Cleaner logic
 
 
 - 0.9.1
