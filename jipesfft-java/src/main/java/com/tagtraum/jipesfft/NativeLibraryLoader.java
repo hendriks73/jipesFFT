@@ -96,7 +96,7 @@ final class NativeLibraryLoader {
         // but extracted, we want to keep things separate
         final String extractedNativeLibFilename = libName + "-" + ARCH + "-" + HOST + "-" + VERSION + "." + NATIVE_LIBRARY_EXTENSION;
         final File extractedNativeLib = new File(System.getProperty("java.io.tmpdir") + "/" + extractedNativeLibFilename);
-        if (!extractedNativeLib.exists()) {
+        if (!extractedNativeLib.exists() || extractedNativeLib.toString().contains("SNAPSHOT")) {
             extractResourceToFile(baseClass, "/" + packagedNativeLib, extractedNativeLib);
         }
         if (extractedNativeLib.exists()) {
