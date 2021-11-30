@@ -1,4 +1,8 @@
-- 0.9.5/6
+- 0.9.9
+  - Fixed missing native libs in "complete" package 
+
+
+- 0.9.5 - 0.9.8
   - Attempt to fix deploy error
 
 

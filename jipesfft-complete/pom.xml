@@ -140,6 +140,7 @@
                                             <type>dylib</type>
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                            <destFileName>jipesfft-x86_64-macos.dylib</destFileName>
                                         </artifactItem>
                                         <artifactItem>
                                             <groupId>com.tagtraum</groupId>
@@ -148,6 +149,7 @@
                                             <type>dylib</type>
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                            <destFileName>jipesfft-aarch64-macos.dylib</destFileName>
                                         </artifactItem>
                                     </artifactItems>
                                 </configuration>
@@ -197,6 +199,7 @@
                                             <type>so</type>
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                            <destFileName>jipesfft-x86_64-unix.so</destFileName>
                                         </artifactItem>
                                     </artifactItems>
                                 </configuration>
@@ -241,6 +244,7 @@
                                             <type>dll</type>
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                            <destFileName>jipesfft-i386-win.dll</destFileName>
                                         </artifactItem>
                                     </artifactItems>
                                 </configuration>
@@ -285,6 +289,7 @@
                                             <type>dll</type>
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                            <destFileName>jipesfft-x86_64-win.dll</destFileName>
                                         </artifactItem>
                                     </artifactItems>
                                 </configuration>
@@ -344,6 +349,7 @@
                                             <type>dylib</type>
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                            <destFileName>jipesfft-x86_64-macos.dylib</destFileName>
                                         </artifactItem>
                                         <artifactItem>
                                             <groupId>com.tagtraum</groupId>
@@ -352,6 +358,7 @@
                                             <type>dylib</type>
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                            <destFileName>jipesfft-aarch64-macos.dylib</destFileName>
                                         </artifactItem>
                                     </artifactItems>
                                 </configuration>

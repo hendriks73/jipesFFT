@@ -35,14 +35,24 @@ final class NativeLibraryLoader {
     private static final String FILE_PROTOCOL = "file";
     private static final String CLASS_FILE_EXTENSION = ".class";
     private static final String OS_NAME_LOWER = System.getProperty("os.name").toLowerCase();
-    private static final String NATIVE_LIBRARY_EXTENSION = OS_NAME_LOWER.contains("mac")
-        ? ".dylib" : (OS_NAME_LOWER.contains("win")) ? ".dll" : ".so";
     private static final String HOST = OS_NAME_LOWER.contains("mac")
         ? "macos" : (OS_NAME_LOWER.contains("win")) ? "win" : "unix";
-    private static final String NATIVE_LIBRARY_PREFIX = "lib";
     private static final Set<String> LOADED = new HashSet<>();
     private static final String ARCH = arch();
     private static Boolean loaded;
+
+    private static final String NATIVE_LIBRARY_PREFIX;
+    private static final String NATIVE_LIBRARY_EXTENSION;
+    static {
+        final String systemLibraryName = System.mapLibraryName("");
+        final int dot = systemLibraryName.lastIndexOf('.');
+
+        NATIVE_LIBRARY_EXTENSION = systemLibraryName.substring(dot + 1);
+        NATIVE_LIBRARY_PREFIX = systemLibraryName.substring(0, dot);
+
+        LOG.fine("NATIVE_LIBRARY_EXTENSION: " + NATIVE_LIBRARY_EXTENSION);
+        LOG.fine("NATIVE_LIBRARY_PREFIX: " + NATIVE_LIBRARY_PREFIX);
+    }
 
     private NativeLibraryLoader() {
     }
@@ -81,8 +91,11 @@ final class NativeLibraryLoader {
     public static synchronized void loadLibrary(final String libName, final Class<?> baseClass) {
         final String key = libName + "|" + baseClass.getName();
         if (LOADED.contains(key)) return;
-        final String packagedNativeLib = libName + "-" + ARCH + "-" + HOST + "-" + VERSION + NATIVE_LIBRARY_EXTENSION;
-        final File extractedNativeLib = new File(System.getProperty("java.io.tmpdir") + "/" + packagedNativeLib);
+        // in the jar, we already know the version, so no need there...
+        final String packagedNativeLib = libName + "-" + ARCH + "-" + HOST + "." + NATIVE_LIBRARY_EXTENSION;
+        // but extracted, we want to keep things separate
+        final String extractedNativeLibFilename = libName + "-" + ARCH + "-" + HOST + "-" + VERSION + "." + NATIVE_LIBRARY_EXTENSION;
+        final File extractedNativeLib = new File(System.getProperty("java.io.tmpdir") + "/" + extractedNativeLibFilename);
         if (!extractedNativeLib.exists()) {
             extractResourceToFile(baseClass, "/" + packagedNativeLib, extractedNativeLib);
         }
