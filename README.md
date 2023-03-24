@@ -60,7 +60,7 @@ class Demo {
 
 ## Java Module
 
-JaplScript is shipped as a Java module
+jipesFFT is shipped as a Java module
 (see [JPMS](https://en.wikipedia.org/wiki/Java_Platform_Module_System))
 with the name `tagtraum.jipesfft`.
 

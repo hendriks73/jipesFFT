@@ -8,7 +8,7 @@ package com.tagtraum.jipesfft;
 
 /**
  * Pure Java FFT for a specific number of samples.
- * Used as a fallback for certain cases by {@link FFT}.
+ * Used as fallback for certain cases by {@link FFT}.
  *
  * @author <a href="mailto:hs@tagtraum.com">Hendrik Schreiber</a>
  */
