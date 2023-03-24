@@ -1,3 +1,7 @@
+- 0.9.10
+  - Fixed typo in readme  
+
+ 
 - 0.9.9
   - Fixed missing native libs in *complete* package
   - Moved to actions/setup-java@v2 in GitHub build
