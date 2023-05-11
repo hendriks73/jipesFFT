@@ -1,3 +1,8 @@
+- 0.9.11
+  - Added signature for native macOS libs 
+  - Updated Maven plugins
+
+
 - 0.9.10
   - Fixed typo in readme  
 
