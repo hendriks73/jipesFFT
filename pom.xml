@@ -276,7 +276,7 @@
         <!-- Windows-specific Config 32 bit-->
         <profile>
             <!-- must be explicitly activated! -->
-            <id>platform-win-x86</id>
+            <id>platform-i386-win</id>
             <modules>
                 <module>jipesfft-i386-win</module>
             </modules>
@@ -313,7 +313,7 @@
         <!-- Windows-specific Config 64 bit-->
         <profile>
             <!-- must be explicitly activated! -->
-            <id>platform-win-x64</id>
+            <id>platform-x86_64-win</id>
             <modules>
                 <module>jipesfft-x86_64-win</module>
             </modules>
@@ -369,15 +369,10 @@
             </properties>
         </profile>
 
-        <!-- Linux-specific Config -->
+        <!-- Linux-specific Config x86_64 -->
         <profile>
-            <id>platform-linux</id>
-            <activation>
-                <os>
-                    <family>unix</family>
-                    <name>!mac os x</name>
-                </os>
-            </activation>
+            <!-- must be explicitly activated! -->
+            <id>platform-x86_64-linux</id>
             <modules>
                 <module>jipesfft-x86_64-linux</module>
             </modules>
@@ -389,6 +384,24 @@
                 <headers.os>linux</headers.os>
                 <compiler.startoptions>${cflags} ${gcc.code} -fPIC -Wall -x c -Wno-multichar -D_JNI_IMPLEMENTATION_ -O3</compiler.startoptions>
                 <linker.startoptions>${gcc.code} -Wl,--allow-multiple-definition -shared -s</linker.startoptions>
+                <!-- <linker.endoptions>-lws2_32</linker.endoptions> -->
+                <linker.endoptions/>
+            </properties>
+        </profile>
+
+        <!-- Linux-specific Config aarch64 -->
+        <profile>
+            <id>platform-aarch64-linux</id>
+            <!-- must be explicitly activated! -->
+            <modules>
+                <module>jipesfft-aarch64-linux</module>
+            </modules>
+            <properties>
+                <ccompiler>aarch64-linux-gnu-gcc</ccompiler>
+                <headers.jni>${env.JAVA_HOME}/include/</headers.jni>
+                <headers.os>linux</headers.os>
+                <compiler.startoptions>${cflags} -fPIC -Wall -x c -Wno-multichar -D_JNI_IMPLEMENTATION_ -O3</compiler.startoptions>
+                <linker.startoptions>-v -Wl,--allow-multiple-definition -shared -s</linker.startoptions>
                 <!-- <linker.endoptions>-lws2_32</linker.endoptions> -->
                 <linker.endoptions/>
             </properties>

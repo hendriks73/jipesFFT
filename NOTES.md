@@ -1,6 +1,7 @@
 - 0.9.12
   - Force signatures for macOS to be timestamped
   - Renamed ill-named linux binaries to `linux` (was `unix`).
+  - Added support for arm64/aarch64 Linux.
 
 
 - 0.9.11

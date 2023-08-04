@@ -1,0 +1,60 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.tagtraum</groupId>
+        <artifactId>jipesfft</artifactId>
+        <version>0.9.12-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>jipesfft-aarch64-linux</artifactId>
+    <packaging>so</packaging>
+    <name>jipesFFT Native Linux Library (aarch64)</name>
+    <description>aarch64/arm64 library for jipesFFT.</description>
+
+    <properties>
+        <arch>aarch64</arch>
+        <host>linux</host>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+    </properties>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>native-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+
+                    <compilerProvider>generic</compilerProvider>
+
+                    <compilerStartOptions>
+                        <compilerStartOption>${compiler.startoptions}</compilerStartOption>
+                    </compilerStartOptions>
+
+                    <javahOS>${headers.os}</javahOS>
+                    <jdkIncludePath>${headers.jni}</jdkIncludePath>
+
+                    <sources>
+                        <source>
+                            <!-- Use source from Windows -->
+                            <directory>../jipesfft-x86_64-win/src/main/c</directory>
+                            <includes>
+                                <include>*.c</include>
+                            </includes>
+                        </source>
+                        <!-- additional include path -->
+                        <source>
+                            <directory>../jipesfft-java/target/native/include</directory>
+                        </source>
+                    </sources>
+
+                    <linkerStartOptions>
+                        <linkerStartOption>${linker.startoptions}</linkerStartOption>
+                    </linkerStartOptions>
+                </configuration>
+
+            </plugin>
+        </plugins>
+    </build>
+</project>
