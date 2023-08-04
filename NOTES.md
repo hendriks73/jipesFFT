@@ -1,3 +1,7 @@
+- 0.9.12
+  - Force signatures for macOS to be timestamped
+
+
 - 0.9.11
   - Added signature for native macOS libs 
   - Updated Maven plugins
