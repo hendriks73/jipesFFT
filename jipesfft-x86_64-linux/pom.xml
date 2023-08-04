@@ -6,9 +6,9 @@
         <version>0.9.12-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>jipesfft-x86_64-unix</artifactId>
+    <artifactId>jipesfft-x86_64-linux</artifactId>
     <packaging>so</packaging>
-    <name>jipesFFT Native Unix/Linux Library (x86_64)</name>
+    <name>jipesFFT Native Linux Library (x86_64)</name>
     <description>x86_64 library for jipesFFT.</description>
 
     <properties>

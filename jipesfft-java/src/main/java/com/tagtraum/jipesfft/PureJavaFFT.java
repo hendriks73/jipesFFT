@@ -284,8 +284,7 @@ fast Fourier transform implementation using floats internally.
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         final PureJavaFFT javaFFT = (PureJavaFFT) o;
-        if (getNumberOfSamples() != javaFFT.getNumberOfSamples()) return false;
-        return true;
+        return getNumberOfSamples() == javaFFT.getNumberOfSamples();
     }
 
     @Override

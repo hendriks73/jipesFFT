@@ -1,5 +1,6 @@
 - 0.9.12
   - Force signatures for macOS to be timestamped
+  - Renamed ill-named linux binaries to `linux` (was `unix`).
 
 
 - 0.9.11

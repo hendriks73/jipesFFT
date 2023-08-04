@@ -172,10 +172,10 @@ jobs:
       - name: Build/test code with Maven
         run: mvn --batch-mode install --file pom.xml
 
-      - run: mkdir nativelibs && cp jipesfft-x86_64-unix/target/*.so nativelibs
+      - run: mkdir nativelibs && cp jipesfft-x86_64-linux/target/*.so nativelibs
       - uses: actions/upload-artifact@v2
         with:
-          name: nativelibs-x86-unix
+          name: nativelibs-x86-linux
           path: nativelibs
           retention-days: 1
 
@@ -187,7 +187,7 @@ jobs:
           GPG_TTY: $(tty)
         run: |
           mvn \
-            --projects jipesfft-x86_64-unix \
+            --projects jipesfft-x86_64-linux \
             --no-transfer-progress \
             --batch-mode \
             -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
@@ -233,7 +233,7 @@ jobs:
       - name: Get Linux native lib
         uses: actions/download-artifact@v2
         with:
-          name: nativelibs-x86-unix
+          name: nativelibs-x86-linux
           path: jipesfft-complete/target/classes/
 
       - name: Get Windows x86 native lib

@@ -215,9 +215,6 @@
                         </div>
                         ]]>
                     </bottom>
-                    <links>
-                        <link>https://docs.oracle.com/javase/9/docs/api/</link>
-                    </links>
                 </configuration>
                 <executions>
                     <execution>
@@ -382,7 +379,7 @@
                 </os>
             </activation>
             <modules>
-                <module>jipesfft-x86_64-unix</module>
+                <module>jipesfft-x86_64-linux</module>
             </modules>
             <properties>
                 <gcc.code>-m64</gcc.code>

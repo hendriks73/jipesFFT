@@ -9,6 +9,7 @@ package com.tagtraum.jipesfft;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -19,7 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Loader for the native libraries.
- *
+ * <p>
  * First tries to load a library the default way using {@link System#loadLibrary(String)},
  * upon failure falls back to the base directory of the given class package or the jar the class
  * is in. This way, a native library is found, if it is located in the same directory as a particular jar, identified
@@ -36,7 +37,7 @@ final class NativeLibraryLoader {
     private static final String CLASS_FILE_EXTENSION = ".class";
     private static final String OS_NAME_LOWER = System.getProperty("os.name").toLowerCase();
     private static final String HOST = OS_NAME_LOWER.contains("mac")
-        ? "macos" : (OS_NAME_LOWER.contains("win")) ? "win" : "unix";
+        ? "macos" : (OS_NAME_LOWER.contains("win")) ? "win" : "linux";
     private static final Set<String> LOADED = new HashSet<>();
     private static final String ARCH = arch();
     private static Boolean loaded;
@@ -133,7 +134,7 @@ final class NativeLibraryLoader {
     private static void extractResourceToFile(final Class<?> baseClass, final String sourceResource, final File targetFile) {
         try (final InputStream in = baseClass.getResourceAsStream(sourceResource)) {
             if (in != null) {
-                try (final OutputStream out = new FileOutputStream(targetFile)) {
+                try (final OutputStream out = Files.newOutputStream(targetFile.toPath())) {
                     final byte[] buf = new byte[1024 * 8];
                     int justRead;
                     while ((justRead = in.read(buf)) != -1) {
