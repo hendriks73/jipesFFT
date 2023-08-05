@@ -160,15 +160,13 @@
             </build>
         </profile>
 
-        <!-- Linux-specific Config -->
+        <!-- Linux-specific Config x86_64 -->
         <profile>
-            <id>platform-linux</id>
-            <activation>
-                <os>
-                    <family>linux</family>
-                    <name>!mac os x</name>
-                </os>
-            </activation>
+            <id>platform-x86_64-linux</id>
+            <!-- must be explicitly activated! -->
+            <modules>
+                <module>jipesfft-x86_64-linux</module>
+            </modules>
             <dependencies>
                 <dependency>
                     <groupId>com.tagtraum</groupId>
@@ -200,6 +198,54 @@
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.build.directory}/classes</outputDirectory>
                                             <destFileName>jipesfft-x86_64-linux.so</destFileName>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Linux-specific Config aarch64 -->
+        <profile>
+            <id>platform-aarch64-linux</id>
+            <!-- must be explicitly activated! -->
+            <modules>
+                <module>jipesfft-aarch64-linux</module>
+            </modules>
+            <dependencies>
+                <dependency>
+                    <groupId>com.tagtraum</groupId>
+                    <artifactId>jipesfft-aarch64-linux</artifactId>
+                    <version>${project.version}</version>
+                    <type>so</type>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.tagtraum</groupId>
+                                            <artifactId>jipesfft-aarch64-linux</artifactId>
+                                            <version>${project.version}</version>
+                                            <type>so</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                            <destFileName>jipesfft-aarch64-linux.so</destFileName>
                                         </artifactItem>
                                     </artifactItems>
                                 </configuration>
