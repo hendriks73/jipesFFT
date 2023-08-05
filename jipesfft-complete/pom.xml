@@ -164,9 +164,6 @@
         <profile>
             <id>platform-x86_64-linux</id>
             <!-- must be explicitly activated! -->
-            <modules>
-                <module>jipesfft-x86_64-linux</module>
-            </modules>
             <dependencies>
                 <dependency>
                     <groupId>com.tagtraum</groupId>
@@ -212,9 +209,6 @@
         <profile>
             <id>platform-aarch64-linux</id>
             <!-- must be explicitly activated! -->
-            <modules>
-                <module>jipesfft-aarch64-linux</module>
-            </modules>
             <dependencies>
                 <dependency>
                     <groupId>com.tagtraum</groupId>
