@@ -1,3 +1,7 @@
+- 0.9.13
+  - Explicit `maven-resources-plugin` version. 
+
+
 - 0.9.12
   - Force signatures for macOS to be timestamped
   - Renamed ill-named linux binaries to `linux` (was `unix`).
