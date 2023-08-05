@@ -3,17 +3,17 @@
     <parent>
         <groupId>com.tagtraum</groupId>
         <artifactId>jipesfft</artifactId>
-        <version>0.9.11</version>
+        <version>0.9.12-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>jipesfft-x86_64-unix</artifactId>
+    <artifactId>jipesfft-aarch64-linux</artifactId>
     <packaging>so</packaging>
-    <name>jipesFFT Native Unix/Linux Library (x86_64)</name>
-    <description>x86_64 library for jipesFFT.</description>
+    <name>jipesFFT Native Linux Library (aarch64)</name>
+    <description>aarch64/arm64 library for jipesFFT.</description>
 
     <properties>
-        <target>WIN32</target>
-        <gcc.code>-m64</gcc.code>
+        <arch>aarch64</arch>
+        <host>linux</host>
         <maven.javadoc.skip>true</maven.javadoc.skip>
     </properties>
 

@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.tagtraum</groupId>
         <artifactId>jipesfft</artifactId>
-        <version>0.9.11</version>
+        <version>0.9.12</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>jipesfft-complete</artifactId>
@@ -160,19 +160,19 @@
             </build>
         </profile>
 
-        <!-- Unix-specific Config -->
+        <!-- Linux-specific Config -->
         <profile>
             <id>platform-linux</id>
             <activation>
                 <os>
-                    <family>unix</family>
+                    <family>linux</family>
                     <name>!mac os x</name>
                 </os>
             </activation>
             <dependencies>
                 <dependency>
                     <groupId>com.tagtraum</groupId>
-                    <artifactId>jipesfft-x86_64-unix</artifactId>
+                    <artifactId>jipesfft-x86_64-linux</artifactId>
                     <version>${project.version}</version>
                     <type>so</type>
                     <scope>provided</scope>
@@ -194,12 +194,12 @@
                                     <artifactItems>
                                         <artifactItem>
                                             <groupId>com.tagtraum</groupId>
-                                            <artifactId>jipesfft-x86_64-unix</artifactId>
+                                            <artifactId>jipesfft-x86_64-linux</artifactId>
                                             <version>${project.version}</version>
                                             <type>so</type>
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.build.directory}/classes</outputDirectory>
-                                            <destFileName>jipesfft-x86_64-unix.so</destFileName>
+                                            <destFileName>jipesfft-x86_64-linux.so</destFileName>
                                         </artifactItem>
                                     </artifactItems>
                                 </configuration>

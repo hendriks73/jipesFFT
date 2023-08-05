@@ -47,13 +47,13 @@ jobs:
     runs-on: windows-2019
     strategy:
       matrix:
-        arch: [ x64, x86 ]
+        arch: [ x86_64, i386 ]
         java: [ '9', '11', '15', '17' ]
         include:
-          - arch: x64
+          - arch: x86_64
             sys: mingw64
             env: x86_64
-          - arch: x86
+          - arch: i386
             sys: mingw32
             env: i686
     defaults:
@@ -78,7 +78,7 @@ jobs:
       - name: Build/test code with Maven
         run: |
           which mvn
-          mvn -P platform-win-${{ matrix.arch }} -B install --file pom.xml
+          mvn -P platform-${{ matrix.arch }}-win -B install --file pom.xml
 
 
   linux-build:
@@ -88,8 +88,19 @@ jobs:
       matrix:
         os: [ ubuntu-20.04, ubuntu-latest ]
         java: [ '9', '11', '15', '17' ]
+        arch: [ x86_64, aarch64 ]
+        include:
+          - arch: x86_64
+            skiptests: 'false'
+          - arch: aarch64
+            skiptests: 'true'
 
     steps:
+      - name: Set up cross compile toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++-aarch64-linux-gnu gcc-aarch64-linux-gnu crossbuild-essential-arm64
+
       - uses: actions/checkout@v2
       - name: Set up Java
         uses: actions/setup-java@v2
@@ -99,4 +110,4 @@ jobs:
           cache: 'maven'
 
       - name: Build/test code with Maven
-        run: mvn -B install --file pom.xml
+        run: mvn -P platform-${{ matrix.arch }}-linux -B install --file pom.xml -Dmaven.test.skip=${{ matrix.skiptests }}
